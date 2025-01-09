@@ -59,7 +59,7 @@ public class CsvToOracle {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
         	     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        	     PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+        	     PreparedStatement preparedStatement = connection.prepareStatement(insertQuery,PreparedStatement.RETURN_GENERATED_KEYS)) {
 
         	    connection.setAutoCommit(false); // 트랜잭션 시작
 
