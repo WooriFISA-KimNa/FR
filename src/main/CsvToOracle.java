@@ -3,6 +3,9 @@ package main;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import controller.UpdateController;
+import repository.UpdateRepository;
+
 public class CsvToOracle {
     private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
     private static final String DB_USER = "scott"; // DB 사용자 이름
@@ -45,7 +48,7 @@ public class CsvToOracle {
 //        String csvFilePath = "D:\\woorifisa\\01.lab\\01.java\\RealEstate\\data.csv";
 //
 //        // SQL INSERT Query
-//        String insertQuery = "INSERT INTO REALESTATEDATA ("
+//        String insertQuery = "INSERT INTO real_estate_data ("
 //                + "reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type, "
 //                + "lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area, "
 //                + "land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name"
@@ -134,9 +137,9 @@ public class CsvToOracle {
 //		ReadController readController = new ReadController(readRepository);
 //		readController.readAll();
     	
-//    	UpdateRepository updateRpository = new UpdateRepository();
-//		UpdateController updateController = new UpdateController(updateRpository);
-//		updateController.updateDistrictName(30976,"서대문구");
+    	UpdateRepository updateRpository = new UpdateRepository();
+		UpdateController updateController = new UpdateController(updateRpository);
+		updateController.updateDistrictName(30976,"광진구");
 
 	}
 }

@@ -23,7 +23,7 @@ public class UpdateRepository {
 				return true;
 			}
 		}finally {
-			DBUtil.close(stmt, conn);
+			DBUtil.close(conn,stmt);
 		}
 		return false;
 		
