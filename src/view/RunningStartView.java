@@ -28,20 +28,19 @@ public class RunningStartView {
 		List<String> validColumnsList = Arrays.asList("eid", "district_name", "legal_dong_name", "main_lot", "sub_lot", "building_name", "contract_date", "property_price");
 
 
+
+
+		System.out.println("***** DB 테이블 생성 *****");
+		CreateController.createTable();
+
+		System.out.println("***** sequence 생성 *****");
+		CreateController.createSequence();
+
+		System.out.println("***** trigger 생성 *****");
+		CreateController.createTrigger();
+
 		System.out.println("***** 테이블에 데이터 생성 *****");
 		CreateController.insertData();
-
-//		System.out.println("***** DB 테이블 생성 *****");
-//		CreateController.createTable();
-//
-//		System.out.println("***** sequence 생성 *****");
-//		CreateController.createSequence();
-//
-//		System.out.println("***** trigger 생성 *****");
-//		CreateController.createTrigger();
-//
-//		System.out.println("***** 테이블에 데이터 생성 *****");
-//		CreateController.insertData();
 
 
 		System.out.println("""
