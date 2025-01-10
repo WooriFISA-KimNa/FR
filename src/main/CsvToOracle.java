@@ -142,9 +142,11 @@ public class CsvToOracle {
 		ReadRepository readRepository = new ReadRepository();
 		ReadController readController = new ReadController(readRepository);
 
-		readController.readAllDTO();
+//		readController.readAllDTO();
 //		System.out.println(readController.findByProperty("district_name", "서초구"));
 //		System.out.println(readController.findByProperty("eid", "1"));
+		readController.findByPropertyDTO("district_name", "서초구");
+
 
 
     }
