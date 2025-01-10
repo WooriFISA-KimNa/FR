@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,26 +35,51 @@ public class UpdateRepository {
 //		
 //	}
 	
-	public boolean changeValue(Long eid, String col, String property) throws SQLException {
+	public boolean changeValue(RealDTO estate, String col, String property) throws SQLException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			stmt = conn.prepareStatement("Update real_estate_data set "
 					+ col +" = "+"? where eid = ?");
 			stmt.setString(1,property);
-			stmt.setLong(2,eid);
+			stmt.setLong(2,estate.getEid());
 			int result = stmt.executeUpdate();
 			
-			if (result == 1) {
-				System.out.println("변경완료");
+			String selectQuery = "SELECT * FROM real_estate_data where eid = ?";
+			stmt = conn.prepareStatement(selectQuery);
+			stmt.setLong(1,estate.getEid());
+			rs = stmt.executeQuery();
+			
+			if (result == 1 && rs.next()) {
+				System.out.println("기존값");
+				EndView.display(estate);
+				
+				estate = new RealDTO(
+                        rs.getLong("eid"),
+                        rs.getString("district_name"),
+                        rs.getString("legal_dong_name"),
+                        rs.getLong("main_lot"),
+                        rs.getLong("sub_lot"),
+                        rs.getString("building_name"),
+                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
+                        rs.getLong("property_price"),
+                        rs.getLong("building_area"),
+                        rs.getLong("floor"),
+                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
+                        rs.getString("building_purpose"),
+                        rs.getString("report_type")
+                );
+				
+				System.out.println("수정값");
+				EndView.display(estate);
+				
 				return true;
-			}else {
-				System.out.println("이상");
 			}
 		}finally {
-			DBUtil.close(conn,stmt);
+			DBUtil.close(conn,stmt,rs);
 		}
 		return false;
 	}
@@ -77,7 +103,7 @@ public class UpdateRepository {
                 String columnName = inputs[1].trim(); // 컬럼 이름
                 String newValue = inputs[2].trim(); // 변경할 값
 
-                changeValue((estates.get(rowIndex-1)).getEid(),columnName,newValue);
+                changeValue(estates.get(rowIndex-1),columnName,newValue);
                 
                 
             } catch (NumberFormatException e) {
