@@ -1,60 +1,65 @@
 package util;
 
 import java.io.FileInputStream;
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class DBUtil {
-    private static Properties dbinfo = new Properties();
+	static Properties p = new Properties();
+	
+	static {
+		try {
+			p.load(new FileInputStream("db.properties"));
+			Class.forName(p.getProperty("jdbc.driver"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
-    static {
-        try {
-            dbinfo.load(new FileInputStream("D:\\woorifisa\\01.lab\\01.java\\FR\\src\\dbinfo.properties"));
-            Class.forName(dbinfo.getProperty("db.driverClassName"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public static Connection getConnection() throws SQLException {
+		return DriverManager.getConnection(p.getProperty("jdbc.url"), 
+											p.getProperty("jdbc.id"),
+											p.getProperty("jdbc.pw"));
+	}
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(dbinfo.getProperty("db.url"),
-                dbinfo.getProperty("db.username"), dbinfo.getProperty("db.password"));
-    }
+	public static void close(Connection con, Statement stmt) {
+		try {
+			if (con != null) {
+				con.close();
+				con = null;
+			}
+			if (stmt != null) {
+				stmt.close();
+				stmt = null;
+			}
+		} catch (SQLException s) {
+			s.printStackTrace();
+		}
+	}
 
-    //DML용 자원반환
-    public static void close(ResultSet rs, Statement stmt, Connection conn) {
-        try{
-            if(rs != null) {
-
-                rs.close();
-                rs = null;
-            }
-            if(stmt != null) {
-                stmt.close();
-                stmt = null;
-            }
-            if(conn != null) {
-                conn.close();
-                conn = null;
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
-    public static void close(Statement stmt, Connection conn) {
-        try{
-            if(stmt != null) {
-                stmt.close();
-                stmt = null;
-            }
-            if(conn != null) {
-                conn.close();
-                conn = null;
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+	public static void close(Connection con, Statement stmt, ResultSet rset) {
+		try {
+			if (rset != null) {
+				rset.close();
+				rset = null;
+			}
+			if (con != null) {
+				con.close();
+				con = null;
+			}
+			if (stmt != null) {
+				stmt.close();
+				stmt = null;
+			}
+		} catch (SQLException s) {
+			s.printStackTrace();
+		}
+	}
 }
