@@ -2,7 +2,6 @@ package main;
 
 import controller.ReadController;
 import repository.ReadRepository;
-import service.ReadService;
 import util.DBUtil;
 import util.DataSource;
 
@@ -15,8 +14,7 @@ public class StartProgram {
         try {
             // 의존성 주입
             ReadRepository readRepository = new ReadRepository();
-            ReadService readService = new ReadService(readRepository);
-            ReadController readController = new ReadController(readService);
+            ReadController readController = new ReadController(readRepository);
             // 데이터 출력
 //            readController.displayAllEstates();
         }catch (Exception e){
