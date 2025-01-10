@@ -1,5 +1,4 @@
-# .idea
-
+.idea
 *.properties
-
+target
 .settings
