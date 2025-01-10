@@ -1,11 +1,11 @@
 package controller;
 
+import java.util.List;
+
 import domain.Estate;
 import dto.RealDTO;
 import repository.ReadRepository;
 import view.EndView;
-
-import java.util.List;
 
 public class ReadController {
 
