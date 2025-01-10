@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import repository.UpdateRepository;
 
 public class CsvToOracle {
 	private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
@@ -159,5 +160,11 @@ public class CsvToOracle {
 //		}
 
 		
+		try {
+			UpdateRepository.updateDistrictName(1, "광진구");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
