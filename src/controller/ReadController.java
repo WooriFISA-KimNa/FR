@@ -1,5 +1,6 @@
 package controller;
 
+import domain.Estate;
 import dto.RealDTO;
 import repository.ReadRepository;
 
@@ -11,6 +12,10 @@ public class ReadController {
 
     public ReadController(ReadRepository readRepository) {
         this.readRepository = readRepository;
+    }
+
+    public List<Estate> readAll() {
+        return readRepository.findAll();
     }
 
 //

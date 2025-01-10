@@ -9,16 +9,16 @@ public class DBUtil {
 
     static {
         try {
-            dbinfo.load(new FileInputStream("D:\\woorifisa\\01.lab\\01.java\\step05_JDBC\\src\\dbinfo.properties"));
-            Class.forName(dbinfo.getProperty("mydb.driverClassName"));
+            dbinfo.load(new FileInputStream("D:\\woorifisa\\01.lab\\01.java\\FR\\src\\dbinfo.properties"));
+            Class.forName(dbinfo.getProperty("db.driverClassName"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(dbinfo.getProperty("mydb.url"),
-                dbinfo.getProperty("mydb.username"), dbinfo.getProperty("mydb.password"));
+        return DriverManager.getConnection(dbinfo.getProperty("db.url"),
+                dbinfo.getProperty("db.username"), dbinfo.getProperty("db.password"));
     }
 
     //DML용 자원반환
