@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import util.DBUtil;
 
 public class UpdateRepository {
-	
-	public static boolean updateDistrictName(long eid, String districtName) throws SQLException{
+
+	public boolean changeDistrictName(long eid, String districtName) throws SQLException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
@@ -26,6 +26,7 @@ public class UpdateRepository {
 			DBUtil.close(stmt, conn);
 		}
 		return false;
+		
 	}
 
 }

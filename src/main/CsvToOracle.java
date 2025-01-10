@@ -3,8 +3,6 @@ package main;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-import repository.UpdateRepository;
-
 public class CsvToOracle {
     private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
     private static final String DB_USER = "scott"; // DB 사용자 이름
@@ -43,7 +41,7 @@ public class CsvToOracle {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 //        String csvFilePath = "D:\\woorifisa\\01.lab\\01.java\\RealEstate\\data.csv";
 //
 //        // SQL INSERT Query
@@ -136,11 +134,9 @@ public class CsvToOracle {
 //		ReadController readController = new ReadController(readRepository);
 //		readController.readAll();
     	
-    	try {
-			UpdateRepository.updateDistrictName(30976,"광진구");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	UpdateRepository updateRpository = new UpdateRepository();
+//		UpdateController updateController = new UpdateController(updateRpository);
+//		updateController.updateDistrictName(30976,"서대문구");
+
 	}
 }
