@@ -14,8 +14,8 @@ public class DBUtil {
 	
 	static {
 		try {
-			p.load(new FileInputStream("db.properties"));
-			Class.forName(p.getProperty("jdbc.driver"));
+			p.load(new FileInputStream("dbinfo.properties"));
+			Class.forName(p.getProperty("db.driverClassName"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -24,9 +24,9 @@ public class DBUtil {
 	}
 
 	public static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(p.getProperty("jdbc.url"), 
-											p.getProperty("jdbc.id"),
-											p.getProperty("jdbc.pw"));
+		return DriverManager.getConnection(p.getProperty("db.url"),
+											p.getProperty("db.username"),
+											p.getProperty("db.password"));
 	}
 
 	public static void close(Connection con, Statement stmt) {
