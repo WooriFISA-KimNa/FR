@@ -54,7 +54,7 @@ public class CsvToOracle {
 //        String csvFilePath = "D:\\woorifisa\\01.lab\\01.java\\RealEstate\\data.csv";
 //
 //        // SQL INSERT Query
-//        String insertQuery = "INSERT INTO REALESTATEDATA ("
+//        String insertQuery = "INSERT INTO real_estate_data ("
 //                + "reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type, "
 //                + "lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area, "
 //                + "land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name"
@@ -138,10 +138,14 @@ public class CsvToOracle {
 //        	    System.err.println("데이터베이스 작업 중 오류 발생: " + e.getMessage());
 //        	}
 //    }
-//
+
 		ReadRepository readRepository = new ReadRepository();
 		ReadController readController = new ReadController(readRepository);
 
-		System.out.println(readController.readAll());
-	}
+		readController.readAllDTO();
+//		System.out.println(readController.findByProperty("district_name", "서초구"));
+//		System.out.println(readController.findByProperty("eid", "1"));
+
+
+    }
 }
