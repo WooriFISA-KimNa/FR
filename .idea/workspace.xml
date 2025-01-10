@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="683df031-803b-40ed-99dd-6975c6c9f0e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controller/CreateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/DeleteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/InsertController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/ReadController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/Estate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dto/TestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/CreateRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/DeleteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/InsertRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/ReadRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/DataServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dto/RealDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/Estate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/Estate.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +79,7 @@
       <updated>1736441011843</updated>
       <workItem from="1736441013270" duration="1632000" />
       <workItem from="1736467235406" duration="417000" />
-      <workItem from="1736467664131" duration="677000" />
+      <workItem from="1736467664131" duration="2366000" />
     </task>
     <servers />
   </component>
