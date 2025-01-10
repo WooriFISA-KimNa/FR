@@ -3,7 +3,6 @@ package main;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-import controller.UpdateController;
 import repository.UpdateRepository;
 
 public class CsvToOracle {
@@ -138,8 +137,7 @@ public class CsvToOracle {
 //		readController.readAll();
     	
     	UpdateRepository updateRpository = new UpdateRepository();
-		UpdateController updateController = new UpdateController(updateRpository);
-		updateController.updateDistrictName(30976,"광진구");
+    	updateRpository.changeProperty("district_name","광진구");
 
 	}
 }
