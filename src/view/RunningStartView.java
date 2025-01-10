@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import controller.CreateController;
@@ -23,6 +25,7 @@ public class RunningStartView {
 				"construction_year", "building_purpose", "report_type", "realtor_district_name" };
 		String col = "";
 		int choice; // 사용자가 선택할 메뉴 번호
+		List<String> validColumnsList = Arrays.asList("eid", "district_name", "legal_dong_name", "main_lot", "sub_lot", "building_name", "contract_date", "property_price");
 
 
 //		System.out.println("***** DB 테이블 생성 *****");
@@ -56,6 +59,7 @@ public class RunningStartView {
 				System.out.print("실행할 옵션을 입력");
 
 				choice = scanner.nextInt();
+				boolean validInput = false;
 
 				switch (choice) {
 				case 1:
@@ -67,44 +71,153 @@ public class RunningStartView {
 					// 검색
 					System.out.println("========================= 조회 메뉴 =========================");
 					System.out.println("실행할 옵션을 입력해주세요");
-					System.out.println("1. 모든 데이터 조회  |  2. 특정 컬럼에 특정 내용 포함한 데이터 조회  |  3. 특정 컬럼에 기준으로 정렬해 데이터 조회");
+					System.out.println("1. 모든 데이터 조회  |  2. 정확한 데이터 조회  |  3. 특정 컬럼에 기준으로 정렬해 데이터 조회 | 4. 특정 컬럼만 조회 | 5. 데이터 검색 조회");
 					System.out.print("실행할 옵션을 입력: ");
 					choice = scanner.nextInt();
 					switch (choice) {
-					case 1:
-						readController.readAllDTO();
-						break;
-					case 2: {
-						boolean validInput = false;
-						System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
-						System.out.println(
-								"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
-						System.out.println(
-								"지번구분: lot_type | 지번구분명: lot_type_name | 본번: main_lot | 부번: sub_lot | 건물명: building_name");
-						System.out.println(
-								"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 토지면적: land_area | 층: floor");
-						System.out.println(
-								"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
-						while (!validInput) {
-							System.out.print("검색할 특정 컬럼을 입력: ");
-							col = scanner.next();
+						case 1:
+							readController.readAllDTO();
+							break;
+						case 2: {
+							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
+							System.out.println(
+									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
+							System.out.println(
+									"지번구분: lot_type | 지번구분명: lot_type_name | 본번: main_lot | 부번: sub_lot | 건물명: building_name");
+							System.out.println(
+									"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 토지면적: land_area | 층: floor");
+							System.out.println(
+									"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
+							while (!validInput) {
+								System.out.print("검색할 특정 컬럼을 입력: ");
+								col = scanner.next();
 
-							// 유효한 컬럼인지 확인
-							for (String validColumn : validColumns) {
-								if (col.equals(validColumn)) {
-									validInput = true;
-									break;
+								// 유효한 컬럼인지 확인
+								for (String validColumn : validColumns) {
+									if (col.equals(validColumn)) {
+										validInput = true;
+										break;
+									}
+								}
+
+								if (!validInput) {
+									System.out.println("유효하지 않은 컬럼입니다. 다시 입력해주세요.");
+								}
+							}
+							System.out.print("검색할 내용을 입력: ");
+							String prop = scanner.next();
+							readController.findByPropertyDTO(col, prop);
+							break;
+						}
+						case 3:
+							System.out.println("검색할 특정 컬럼을 입력해주세요 (reception_year, district_code, district_name)");
+							System.out.println(
+									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
+							System.out.println(
+									"지번구분: lot_type | 지번구분명: lot_type_name | 본번: main_lot | 부번: sub_lot | 건물명: building_name");
+							System.out.println(
+									"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 토지면적: land_area | 층: floor");
+							System.out.println(
+									"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
+
+							while (!validInput) {
+								System.out.print("검색할 특정 컬럼을 입력: ");
+								col = scanner.next();
+
+								String[] columns = col.split(",");
+								StringBuilder validColumnQuery = new StringBuilder();
+
+								for (String column : columns) {
+									column = column.trim(); // 공백 제거
+									if (validColumnsList.contains(column)) {
+										if (validColumnQuery.length() > 0) {
+											validColumnQuery.append(", ");
+										}
+										validColumnQuery.append(column);
+									} else {
+										validInput = true;
+										System.out.println("유효하지 않은 컬럼명: " + column);
+										break;
+									}
+								}
+
+								if (!validInput) {
+									System.out.println("유효하지 않은 컬럼입니다. 다시 입력해주세요.");
+								}
+								readController.selectSpecificColumns(validColumnQuery.toString());
+							}
+							break;
+						case 4:
+							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
+							System.out.println(
+									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
+							System.out.println(
+									"지번구분: lot_type | 지번구분명: lot_type_name | 본번: main_lot | 부번: sub_lot | 건물명: building_name");
+							System.out.println(
+									"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 토지면적: land_area | 층: floor");
+							System.out.println(
+									"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
+							System.out.print("쉼표(,)로 구분하여 원하는 컬럼명을 입력하세요: ");
+
+							scanner.nextLine(); // 이전 입력 버퍼 정리
+							col = scanner.nextLine();
+
+							// 입력된 컬럼을 쉼표로 분리
+							String[] columns = col.split(",");
+							StringBuilder validColumnQuery = new StringBuilder();
+
+							for (String column : columns) {
+								column = column.trim(); // 공백 제거
+								if (validColumnsList.contains(column)) {
+									if (validColumnQuery.length() > 0) {
+										validColumnQuery.append(", ");
+									}
+									validColumnQuery.append(column);
+								} else {
+									System.out.println("유효하지 않은 컬럼명: " + column);
 								}
 							}
 
-							if (!validInput) {
+							if (validColumnQuery.length() == 0) {
 								System.out.println("유효하지 않은 컬럼입니다. 다시 입력해주세요.");
+								break;
 							}
-						}
-						System.out.print("검색할 내용을 입력: ");
-						String prop = scanner.next();
-						readController.findByPropertyDTO(col, prop);
-					}
+
+							//System.out.println("선택된 컬럼: " + validColumnQuery);
+
+							// 특정 컬럼으로 조회
+							readController.selectSpecificColumns(validColumnQuery.toString());
+							break;
+						case 5:
+							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
+							System.out.println(
+									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
+							System.out.println(
+									"지번구분: lot_type | 지번구분명: lot_type_name | 본번: main_lot | 부번: sub_lot | 건물명: building_name");
+							System.out.println(
+									"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 토지면적: land_area | 층: floor");
+							System.out.println(
+									"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
+							while (!validInput) {
+								System.out.print("검색할 특정 컬럼을 입력: ");
+								col = scanner.next();
+
+								// 유효한 컬럼인지 확인
+								for (String validColumn : validColumns) {
+									if (col.equals(validColumn)) {
+										validInput = true;
+										break;
+									}
+								}
+
+								if (!validInput) {
+									System.out.println("유효하지 않은 컬럼입니다. 다시 입력해주세요.");
+								}
+							}
+							System.out.print("검색할 내용을 입력: ");
+							String prop = scanner.next();
+							readController.findByAnonymousPropertyDTO(col, prop);
+							break;
 					}
 
 					break;
