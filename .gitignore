@@ -3,3 +3,5 @@
 *.properties
 
 .settings
+target/
+*.class
