@@ -135,17 +135,12 @@ public class CsvToOracle {
 //		ReadController readController = new ReadController(readRepository);
 //		readController.readAll();
 
-//		UpdateRepository updateRpository = new UpdateRepository();
-//		UpdateController updateController = new UpdateController(updateRpository);
-//		updateController.update("district_name", "광진구");
-		
-		
-//		DeleteController.selectEstate("60", "4");
-//		System.out.println("출력 성공");
-//		
-//		DeleteController.deleteEstate("60", "4");
-//		DeleteController.selectEstate("60","4");
-//		System.out.println("삭제 성공");
+        // SQL INSERT Query
+        String insertQuery = "INSERT INTO RealEstateData ("
+                + "reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type, "
+                + "lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area, "
+                + "land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name"
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
 	}
