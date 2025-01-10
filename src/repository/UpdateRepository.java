@@ -13,26 +13,26 @@ import view.EndView;
 
 public class UpdateRepository {
 
-	public boolean changeDistrictName(long eid, String districtName) throws SQLException {
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		
-		try {
-			conn = DBUtil.getConnection();
-			stmt = conn.prepareStatement("Update real_estate_data set district_name = ? where eid = ?");
-			stmt.setString(1,districtName);
-			stmt.setLong(2,eid);
-			int result = stmt.executeUpdate();
-			
-			if (result == 1) {
-				return true;
-			}
-		}finally {
-			DBUtil.close(conn,stmt);
-		}
-		return false;
-		
-	}
+//	public boolean changeDistrictName(long eid, String districtName) throws SQLException {
+//		Connection conn = null;
+//		PreparedStatement stmt = null;
+//		
+//		try {
+//			conn = DBUtil.getConnection();
+//			stmt = conn.prepareStatement("Update real_estate_data set district_name = ? where eid = ?");
+//			stmt.setString(1,districtName);
+//			stmt.setLong(2,eid);
+//			int result = stmt.executeUpdate();
+//			
+//			if (result == 1) {
+//				return true;
+//			}
+//		}finally {
+//			DBUtil.close(conn,stmt);
+//		}
+//		return false;
+//		
+//	}
 	
 	public boolean changeValue(Long eid, String col, String property) throws SQLException {
 		Connection conn = null;

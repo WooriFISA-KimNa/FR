@@ -12,16 +12,13 @@ public class UpdateController {
 		updateRepository = new UpdateRepository();
 	}
 	
-	public void updateDistrictName(long eid, String district_name) {
+	public void update(String col, String property) {
 		try{
-			updateRepository.changeDistrictName(eid, district_name);
+			updateRepository.changeProperty(col, property);
 			System.out.println("수정 성공");
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			System.out.println("해당하는 "+eid+"값이 존재하지 않습니다.");
+			System.out.println("해당하는 값이 존재하지 않습니다.");
 		}
 	}
-
-	
-
 }
