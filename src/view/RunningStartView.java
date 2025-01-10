@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import controller.CreateController;
+import controller.DeleteController;
 import controller.ReadController;
 import repository.ReadRepository;
 import controller.ReadController;
 import controller.UpdateController;
 import repository.ReadRepository;
 import repository.UpdateRepository;
+
 
 public class RunningStartView {
 
@@ -21,15 +23,13 @@ public class RunningStartView {
 		UpdateRepository updateRepository = new UpdateRepository();
 		UpdateController updateController = new UpdateController(updateRepository);
 
-		//readController.findByAnonymousPropertyDTO("building_name", "태릉우성아파트");
-		//readController.findByPropertyDTO("building_name", "태릉우성아파트");
 
 		Scanner scanner = new Scanner(System.in);
 		String[] validColumns = { "reception_year", "district_code", "district_name", "legal_dong_code",
 				"legal_dong_name", "lot_type", "lot_type_name", "main_lot", "sub_lot", "building_name", "contract_date",
 				"property_price", "building_area", "land_area", "floor", "right_type", "cancellation_date",
 				"construction_year", "building_purpose", "report_type", "realtor_district_name" };
-		String col = "", property = "";
+		String col = "", property = "", mainLot = "", subLot = "", option = "";
 		int choice; // 사용자가 선택할 메뉴 번호
 		List<String> validColumnsList = Arrays.asList("eid", "district_name", "legal_dong_name", "main_lot", "sub_lot", "building_name", "contract_date", "property_price");
 
@@ -248,6 +248,22 @@ public class RunningStartView {
 				case 4:
 					// 삭제
 					System.out.println("========================= 삭제 =========================");
+					System.out.print("삭제할 본번 입력해주세요: ");
+					mainLot = scanner.next();
+					System.out.print("삭제할 부번 입력해주세요: ");
+					subLot = scanner.next();
+
+					DeleteController.selectEstate(mainLot, subLot);
+					System.out.print("삭제하시겠습니까 ? (Y) : ");
+					option = scanner.next();
+					
+					if (option == "Y") {
+						DeleteController.deleteEstate(mainLot, subLot);
+						DeleteController.selectEstate(mainLot, subLot);
+						System.out.println("삭제 성공");
+					} else {
+						System.out.println("삭제 실패");
+					}
 					break;
 				case 5:
 					// 종료
