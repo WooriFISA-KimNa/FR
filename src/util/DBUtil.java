@@ -23,7 +23,7 @@ public class DBUtil {
 		}
 	}
 	public static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(p.getProperty("db.url"), 
+		return DriverManager.getConnection(p.getProperty("db.url"),
 											p.getProperty("db.username"),
 											p.getProperty("db.password"));
 	}
