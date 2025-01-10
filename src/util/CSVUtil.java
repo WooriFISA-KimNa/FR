@@ -25,24 +25,9 @@ public class CSVUtil {
             return 0.0;
         }
     }
-//
-//	public static boolean isValidDate(String date) {
-//		try {
-//	        if (date == null || date.isEmpty() || date.equalsIgnoreCase("null")) return false;
-//	        // 20241231 형식을 먼저 처리
-//	        if (date.length() == 8) {
-//	            SimpleDateFormat sdfInput = new SimpleDateFormat("yyyyMMdd");
-//	            sdfInput.setLenient(false);
-//	            Date parsedDate = new Date(sdfInput.parse(date.trim()).getTime());  // java.sql.Date로 변환
-//	            return true;
-//	            }
-//        } catch (ParseException e) {
-//            return false;
-//        }
-//    }
+
 	
 	public static Date convertToSqlDate(String date) {
-		System.out.println(date);
 	    try {
 	        if (date == null || date.isEmpty() || date.equalsIgnoreCase("null")) {
 	            return null; // date가 null이거나 빈 문자열일 경우 null 반환
