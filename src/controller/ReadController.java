@@ -30,8 +30,10 @@ public class ReadController {
         //EndView.displayAsTable(estates);
     }
 
-//
-//    public List<RealDTO> getAllReal() {
-//        return ;
-//    }
+    public void findByPropertyDTO(String col, String prop){
+        List<RealDTO> estates = readRepository.findByPropertyDTO(col, prop);
+        EndView.displayAsTable(estates);
+    }
+
+
 }

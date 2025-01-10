@@ -2,12 +2,10 @@ package repository;
 
 import domain.Estate;
 import dto.RealDTO;
+import oracle.jdbc.proxy.annotation.Pre;
 import util.DBUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class ReadRepository {
@@ -69,13 +67,13 @@ public class ReadRepository {
                 "building_purpose, report_type FROM real_estate_data";
 
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
             conn = DBUtil.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
+            pstmt = conn.prepareStatement(query);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 RealDTO realDTO = new RealDTO(
@@ -99,7 +97,7 @@ public class ReadRepository {
             e.printStackTrace();
             throw new RuntimeException("Database error occurred while fetching DTOs", e);
         } finally {
-            DBUtil.close(rs, stmt, conn);
+            DBUtil.close(rs, pstmt, conn);
         }
 
         return estates;
@@ -155,4 +153,51 @@ public class ReadRepository {
         }
         return estates;
     }
+
+    public List<RealDTO> findByPropertyDTO(String col, String property) {
+        List<RealDTO> estates = new ArrayList<>();
+        String query = "SELECT * FROM real_estate_data WHERE " + col + " = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            // DBUtil을 통해 Connection 획득
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(query);
+
+            pstmt.setString(1, property);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                RealDTO realDTO = new RealDTO(
+                        rs.getLong("eid"),
+                        rs.getString("district_name"),
+                        rs.getString("legal_dong_name"),
+                        rs.getLong("main_lot"),
+                        rs.getLong("sub_lot"),
+                        rs.getString("building_name"),
+                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
+                        rs.getLong("property_price"),
+                        rs.getLong("building_area"),
+                        rs.getLong("floor"),
+                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
+                        rs.getString("building_purpose"),
+                        rs.getString("report_type")
+                );
+                estates.add(realDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Database error occurred while fetching estates", e);
+        } finally {
+            // DBUtil을 사용해 자원 정리
+            DBUtil.close(rs, pstmt, conn);
+        }
+        return estates;
+    }
+
+
+
 }
