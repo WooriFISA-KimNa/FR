@@ -15,24 +15,28 @@ import java.time.format.DateTimeParseException;
 public class ReadRepository {
 
 
-    public static Object parseInput(String input) {
+    public static Object parseInput(String col, String input) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            System.out.println("Input is Date");
-            return LocalDate.parse(input, formatter);
-        } catch (DateTimeParseException e) {
-            // 날짜가 아님
-        }
+            // 날짜 컬럼으로 지정된 경우 날짜로 변환 시도
+            if (col.equals("contract_date") || col.equals("cancellation_date")) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return LocalDate.parse(input, formatter);
+            }
 
-        try {
-            System.out.println("Input is Long");
-            return Long.parseLong(input);
+            // 숫자 컬럼으로 지정된 경우 숫자로 변환 시도
+            if (col.equals("eid") || col.equals("property_price") || col.equals("main_lot") || col.equals("sub_lot") || col.equals("floor")) {
+                return Long.parseLong(input);
+            }
+
+            // 기본적으로 문자열로 처리
+            return input;
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format for column: " + col);
         } catch (NumberFormatException e) {
-            // 숫자가 아님
+            throw new IllegalArgumentException("Invalid number format for column: " + col);
         }
-        System.out.println("Input is String");
-        return input;
     }
+
 
     public List<Estate> findAll() {
         List<Estate> estates = new ArrayList<>();
@@ -185,7 +189,7 @@ public class ReadRepository {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        Object parsedProperty = parseInput(property);
+        Object parsedProperty = parseInput(col, property);
 
         try {
             // DBUtil을 통해 Connection 획득
