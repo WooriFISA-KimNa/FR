@@ -1,16 +1,9 @@
 package main;
 
-import controller.ReadController;
-import repository.ReadRepository;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+
+import repository.UpdateRepository;
 
 public class CsvToOracle {
     private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
@@ -139,9 +132,15 @@ public class CsvToOracle {
 //        	}
 //    }
 //
-		ReadRepository readRepository = new ReadRepository();
-		ReadController readController = new ReadController(readRepository);
-
-		System.out.println(readController.readAll());
+//		ReadRepository readRepository = new ReadRepository();
+//		ReadController readController = new ReadController(readRepository);
+//		readController.readAll();
+    	
+    	try {
+			UpdateRepository.updateDistrictName(30976,"광진구");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

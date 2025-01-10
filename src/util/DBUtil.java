@@ -1,7 +1,11 @@
 package util;
 
 import java.io.FileInputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class DBUtil {
@@ -9,7 +13,7 @@ public class DBUtil {
 
     static {
         try {
-            dbinfo.load(new FileInputStream("D:\\woorifisa\\01.lab\\01.java\\FR\\src\\dbinfo.properties"));
+            dbinfo.load(new FileInputStream("dbinfo.properties"));
             Class.forName(dbinfo.getProperty("db.driverClassName"));
         } catch (Exception e) {
             e.printStackTrace();

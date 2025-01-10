@@ -1,19 +1,20 @@
 package repository;
 
-import domain.Estate;
-import util.DBUtil;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import domain.Estate;
+import util.DBUtil;
 
 public class ReadRepository {
 
     public List<Estate> findAll() {
         List<Estate> estates = new ArrayList<>();
-        String query = "SELECT * FROM RealEstateData";
+        String query = "SELECT * FROM Real_Estate_Data";
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
