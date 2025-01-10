@@ -1,16 +1,16 @@
 package controller;
 
 import dto.RealDTO;
-import service.ReadService;
+import repository.ReadRepository;
 
 import java.util.List;
 
 public class ReadController {
 
-    private final ReadService readService;
+    private final ReadRepository readRepository;
 
-    public ReadController(ReadService readService) {
-        this.readService = readService;
+    public ReadController(ReadRepository readRepository) {
+        this.readRepository = readRepository;
     }
 
 //
