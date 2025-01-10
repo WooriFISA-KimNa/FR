@@ -7,6 +7,10 @@ import java.util.Scanner;
 import controller.CreateController;
 import controller.ReadController;
 import repository.ReadRepository;
+import controller.ReadController;
+import controller.UpdateController;
+import repository.ReadRepository;
+import repository.UpdateRepository;
 
 public class RunningStartView {
 
@@ -14,6 +18,8 @@ public class RunningStartView {
 
 		ReadRepository readRepository = new ReadRepository();
 		ReadController readController = new ReadController(readRepository);
+		UpdateRepository updateRepository = new UpdateRepository();
+		UpdateController updateController = new UpdateController(updateRepository);
 
 		//readController.findByAnonymousPropertyDTO("building_name", "태릉우성아파트");
 		//readController.findByPropertyDTO("building_name", "태릉우성아파트");
@@ -23,7 +29,7 @@ public class RunningStartView {
 				"legal_dong_name", "lot_type", "lot_type_name", "main_lot", "sub_lot", "building_name", "contract_date",
 				"property_price", "building_area", "land_area", "floor", "right_type", "cancellation_date",
 				"construction_year", "building_purpose", "report_type", "realtor_district_name" };
-		String col = "";
+		String col = "", property = "";
 		int choice; // 사용자가 선택할 메뉴 번호
 		List<String> validColumnsList = Arrays.asList("eid", "district_name", "legal_dong_name", "main_lot", "sub_lot", "building_name", "contract_date", "property_price");
 
@@ -227,6 +233,18 @@ public class RunningStartView {
 				case 3:
 					// 수정
 					System.out.println("========================= 수정 =========================");
+					System.out.println("수정할 특정 컬럼을 입력해주세요 (자치구명 검색 후 수정-> district_name 입력)");
+					System.out.println(
+							"자치구명: district_name | 법정동명: legal_dong_name | 본번: main_lot | 부번: sub_lot | 건물명: building_name");
+					System.out.println(
+							"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 층: floor | 취소일: cancellation_date");
+					System.out.println(
+							"건축용도: building_purpose | 신고구분: report_type");
+					System.out.print("수정할 특정 컬럼을 입력: ");
+					col = scanner.next();
+					System.out.print("수정할 내용을 입력: ");
+					property = scanner.next();
+					updateController.update(col, property);
 					break;
 				case 4:
 					// 삭제
