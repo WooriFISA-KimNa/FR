@@ -7,8 +7,32 @@ import util.DBUtil;
 
 import java.sql.*;
 import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 
 public class ReadRepository {
+
+
+    public static Object parseInput(String input) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            System.out.println("Input is Date");
+            return LocalDate.parse(input, formatter);
+        } catch (DateTimeParseException e) {
+            // 날짜가 아님
+        }
+
+        try {
+            System.out.println("Input is Long");
+            return Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            // 숫자가 아님
+        }
+        System.out.println("Input is String");
+        return input;
+    }
 
     public List<Estate> findAll() {
         List<Estate> estates = new ArrayList<>();
@@ -161,13 +185,22 @@ public class ReadRepository {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
+        Object parsedProperty = parseInput(property);
+
         try {
             // DBUtil을 통해 Connection 획득
             conn = DBUtil.getConnection();
             pstmt = conn.prepareStatement(query);
 
-            pstmt.setString(1, property);
-
+            if (parsedProperty instanceof String) {
+                pstmt.setString(1, (String) parsedProperty);
+            } else if (parsedProperty instanceof Long) {
+                pstmt.setLong(1, (Long) parsedProperty);
+            } else if (parsedProperty instanceof LocalDate) {
+                pstmt.setDate(1, java.sql.Date.valueOf((LocalDate) parsedProperty));
+            } else {
+                throw new IllegalArgumentException("Unsupported property type: " + property.getClass().getSimpleName());
+            }
             rs = pstmt.executeQuery();
 
             while (rs.next()) {

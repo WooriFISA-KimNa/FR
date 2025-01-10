@@ -145,7 +145,8 @@ public class CsvToOracle {
 //		readController.readAllDTO();
 //		System.out.println(readController.findByProperty("district_name", "서초구"));
 //		System.out.println(readController.findByProperty("eid", "1"));
-		readController.findByPropertyDTO("district_name", "서초구");
+//		readController.findByPropertyDTO("district_name", "서초구");
+		readController.findByPropertyDTO("contract_date", "2024-12-31");
 
 
 
