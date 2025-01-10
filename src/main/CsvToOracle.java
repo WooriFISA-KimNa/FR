@@ -3,8 +3,7 @@ package main;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-import controller.UpdateController;
-import repository.UpdateRepository;
+import controller.DeleteController;
 
 public class CsvToOracle {
 	private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
@@ -138,9 +137,17 @@ public class CsvToOracle {
 //		ReadController readController = new ReadController(readRepository);
 //		readController.readAll();
 
-		UpdateRepository updateRpository = new UpdateRepository();
-		UpdateController updateController = new UpdateController(updateRpository);
-		updateController.update("district_name", "광진구");
+//		UpdateRepository updateRpository = new UpdateRepository();
+//		UpdateController updateController = new UpdateController(updateRpository);
+//		updateController.update("district_name", "광진구");
+		
+		
+		DeleteController.selectEstate("60", "4");
+		System.out.println("출력 성공");
+		
+		DeleteController.deleteEstate("60", "4");
+		DeleteController.selectEstate("60","4");
+		System.out.println("삭제 성공");
 
 	}
 }
