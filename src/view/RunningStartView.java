@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.CreateController;
 import controller.ReadController;
 import repository.ReadRepository;
 
@@ -17,6 +18,9 @@ public class RunningStartView {
 		ReadRepository readRepository = new ReadRepository();
 		ReadController readController = new ReadController(readRepository);
 		int choice; // 사용자가 선택할 메뉴 번호
+
+		System.out.println("***** 테이블에 데이터 생성 *****");
+		CreateController.insertData();
 
 //		System.out.println("***** DB 테이블 생성 *****");
 //		CreateController.createTable();

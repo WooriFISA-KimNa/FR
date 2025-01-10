@@ -1,18 +1,23 @@
 package repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.Estate;
 import dto.RealDTO;
-import oracle.jdbc.proxy.annotation.Pre;
 import util.DBUtil;
-
-import java.sql.*;
-import java.util.*;
 
 public class ReadRepository {
 
     public List<Estate> findAll() {
         List<Estate> estates = new ArrayList<>();
-        String query = "SELECT * FROM real_estate_data";
+        String query = "SELECT * FROM Real_Estate_Data";
+
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -55,7 +60,7 @@ public class ReadRepository {
             throw new RuntimeException("Database error occurred while fetching estates", e);
         } finally {
             // DBUtil을 사용해 자원 정리
-            DBUtil.close(rs, stmt, conn);
+            DBUtil.close(conn, stmt, rs);
         }
         return estates;
     }
@@ -97,7 +102,7 @@ public class ReadRepository {
             e.printStackTrace();
             throw new RuntimeException("Database error occurred while fetching DTOs", e);
         } finally {
-            DBUtil.close(rs, pstmt, conn);
+            DBUtil.close(conn, pstmt, rs);
         }
 
         return estates;
@@ -149,7 +154,7 @@ public class ReadRepository {
             throw new RuntimeException("Database error occurred while fetching estates", e);
         } finally {
             // DBUtil을 사용해 자원 정리
-            DBUtil.close(rs, stmt, conn);
+            DBUtil.close(conn, stmt, rs);
         }
         return estates;
     }
@@ -193,7 +198,7 @@ public class ReadRepository {
             throw new RuntimeException("Database error occurred while fetching estates", e);
         } finally {
             // DBUtil을 사용해 자원 정리
-            DBUtil.close(rs, pstmt, conn);
+            DBUtil.close(conn, pstmt, rs);
         }
         return estates;
     }
