@@ -9,7 +9,7 @@ public class DBUtil {
 
     static {
         try {
-            dbinfo.load(new FileInputStream("D:\\woorifisa\\01.lab\\01.java\\FR\\src\\dbinfo.properties"));
+            dbinfo.load(new FileInputStream("dbinfo.properties"));
             Class.forName(dbinfo.getProperty("db.driverClassName"));
         } catch (Exception e) {
             e.printStackTrace();

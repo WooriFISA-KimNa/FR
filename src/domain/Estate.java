@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Estate {
-    private Long eid; // PRIMARY KEY
+   // private Long eid; // PRIMARY KEY
     private Long receptionYear; // 접수연도
     private Long districtCode; // 자치구코드
     private String districtName; // 자치구명

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RealDTO {
     // 자치구명, 법정동명, 본번, 부번, 건물명, 계약일, 물건금액, 건물면적, 층, 취소일, 건물용도, 신고구분 + 평 수,
-    private Long eid; // PRIMARY KEY
+    //private Long eid; // PRIMARY KEY
     private String districtName; // 자치구명
     private String legalDongName; // 법정동명
     private Long mainLot; // 본번

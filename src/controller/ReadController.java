@@ -3,6 +3,7 @@ package controller;
 import domain.Estate;
 import dto.RealDTO;
 import repository.ReadRepository;
+import view.EndView;
 
 import java.util.List;
 
@@ -14,12 +15,25 @@ public class ReadController {
         this.readRepository = readRepository;
     }
 
-    public List<Estate> readAll() {
-        return readRepository.findAll();
+    public void readAll() {
+        List<RealDTO> estates = readRepository.findAllDTO();
+        EndView.displayAsTable(estates);
     }
 
-//
-//    public List<RealDTO> getAllReal() {
-//        return ;
-//    }
+    public void readAllDTO() {
+        List<RealDTO> estates = readRepository.findAllDTO();
+        EndView.displayAsTable(estates);
+    }
+
+    public void findByProperty(String col, String prop){
+        List<Estate> estates = readRepository.findByProperty(col, prop);
+        //EndView.displayAsTable(estates);
+    }
+
+    public void findByPropertyDTO(String col, String prop){
+        List<RealDTO> estates = readRepository.findByPropertyDTO(col, prop);
+        EndView.displayAsTable(estates);
+    }
+
+
 }
