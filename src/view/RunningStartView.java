@@ -45,6 +45,7 @@ public class RunningStartView {
 				System.out.println("========================= 메뉴 =========================");
 				System.out.println("실행할 옵션을 입력해주세요");
 				System.out.println("1. 추가  |  2. 조회  |  3. 수정  |  4. 삭제  |  5.종료");
+				System.out.print("실행할 옵션을 입력");
 
 				choice = scanner.nextInt();
 
@@ -64,6 +65,7 @@ public class RunningStartView {
 					switch (choice) {
 					case 1:
 						readController.readAllDTO();
+						break;
 					case 2: {
 						boolean validInput = false;
 						System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
