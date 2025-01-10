@@ -22,7 +22,6 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-
 	public static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(p.getProperty("db.url"),
 											p.getProperty("db.username"),

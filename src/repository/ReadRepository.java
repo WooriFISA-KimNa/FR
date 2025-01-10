@@ -1,5 +1,13 @@
 package repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.Estate;
 import dto.RealDTO;
 import util.DBUtil;
@@ -40,7 +48,8 @@ public class ReadRepository {
 
     public List<Estate> findAll() {
         List<Estate> estates = new ArrayList<>();
-        String query = "SELECT * FROM real_estate_data";
+        String query = "SELECT * FROM Real_Estate_Data";
+
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;

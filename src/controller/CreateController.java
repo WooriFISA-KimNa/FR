@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import repository.CreateRepository;
 import view.EndView;
 
+
 public class CreateController {
 	// 테이블 생성
 	public static boolean createTable() {
@@ -14,6 +15,7 @@ public class CreateController {
 			result = CreateRepository.createTable();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			//RunningEndView.showError("테이블 생성 에러 발생");
 			EndView.showError("테이블 생성 에러 발생");
 		}
 		return result;
@@ -27,6 +29,7 @@ public class CreateController {
 			result = CreateRepository.insertData();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			//RunningEndView.showError("데이텁 입력 에러 발생");
 			EndView.showError("데이텁 입력 에러 발생");
 		}
 		return result;
@@ -39,6 +42,7 @@ public class CreateController {
 			result = CreateRepository.createSequence();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			//RunningEndView.showError("sequence 생성 에러 발생");
 			EndView.showError("sequence 생성 에러 발생");
 		}
 		return result;
@@ -51,6 +55,7 @@ public class CreateController {
 			result = CreateRepository.createTrigger();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			//RunningEndView.showError("trigger 생성 에러 발생");
 			EndView.showError("trigger 생성 에러 발생");
 		}
 		return result;

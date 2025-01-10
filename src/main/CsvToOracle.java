@@ -1,56 +1,51 @@
 package main;
 
-import controller.ReadController;
-import repository.ReadRepository;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import controller.UpdateController;
+import repository.UpdateRepository;
+
 public class CsvToOracle {
-    private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
-    private static final String DB_USER = "scott"; // DB 사용자 이름
-    private static final String DB_PASSWORD = "tiger"; // DB 비밀번호
+	private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
+	private static final String DB_USER = "scott"; // DB 사용자 이름
+	private static final String DB_PASSWORD = "tiger"; // DB 비밀번호
 
-    private static int parseInteger(String value) {
-        try {
-            if (value == null || value.isEmpty() || value.equalsIgnoreCase("null")) {
-                return 0; // 기본값
-            }
-            return (int) Double.parseDouble(value.trim()); // 실수 처리
-        } catch (NumberFormatException e) {
-            System.err.println("숫자 파싱 오류: " + value);
-            return 0;
-        }
-    }
+	private static int parseInteger(String value) {
+		try {
+			if (value == null || value.isEmpty() || value.equalsIgnoreCase("null")) {
+				return 0; // 기본값
+			}
+			return (int) Double.parseDouble(value.trim()); // 실수 처리
+		} catch (NumberFormatException e) {
+			System.err.println("숫자 파싱 오류: " + value);
+			return 0;
+		}
+	}
 
-    private static double parseDouble(String value) {
-        try {
-            return (value == null || value.isEmpty()) ? 0.0 : Double.parseDouble(value.trim());
-        } catch (NumberFormatException e) {
-            System.err.println("소수점 숫자 파싱 오류: " + value);
-            return 0.0;
-        }
-    }
+	private static double parseDouble(String value) {
+		try {
+			return (value == null || value.isEmpty()) ? 0.0 : Double.parseDouble(value.trim());
+		} catch (NumberFormatException e) {
+			System.err.println("소수점 숫자 파싱 오류: " + value);
+			return 0.0;
+		}
+	}
 
-    private static boolean isValidDate(String date) {
-        try {
-            if (date == null || date.isEmpty() || date.equalsIgnoreCase("null")) return false;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            sdf.setLenient(false); // 엄격한 날짜 검증
-            sdf.parse(date.trim());
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	private static boolean isValidDate(String date) {
+		try {
+			if (date == null || date.isEmpty() || date.equalsIgnoreCase("null"))
+				return false;
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sdf.setLenient(false); // 엄격한 날짜 검증
+			sdf.parse(date.trim());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-    public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 //        String csvFilePath = "D:\\woorifisa\\01.lab\\01.java\\RealEstate\\data.csv";
 //
 //        // SQL INSERT Query
@@ -138,17 +133,15 @@ public class CsvToOracle {
 //        	    System.err.println("데이터베이스 작업 중 오류 발생: " + e.getMessage());
 //        	}
 //    }
+//
+//		ReadRepository readRepository = new ReadRepository();
+//		ReadController readController = new ReadController(readRepository);
+//		readController.readAll();
 
-		ReadRepository readRepository = new ReadRepository();
-		ReadController readController = new ReadController(readRepository);
-
-//		readController.readAllDTO();
-//		System.out.println(readController.findByProperty("district_name", "서초구"));
-//		System.out.println(readController.findByProperty("eid", "1"));
-//		readController.findByPropertyDTO("district_name", "서초구");
-		readController.findByPropertyDTO("contract_date", "2024-12-31");
-
+		UpdateRepository updateRpository = new UpdateRepository();
+		UpdateController updateController = new UpdateController(updateRpository);
+		updateController.update("district_name", "광진구");
 
 
-    }
+	}
 }
