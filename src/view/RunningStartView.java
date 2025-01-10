@@ -23,7 +23,8 @@ public class RunningStartView {
 		ReadRepository readRepository = new ReadRepository();
 		ReadController readController = new ReadController(readRepository);
 
-		readController.orderByColumn("property_price", "1");
+		readController.findByAnonymousPropertyDTO("building_name", "태릉우성아파트");
+		readController.findByPropertyDTO("building_name", "태릉우성아파트");
 
 	}
 

@@ -297,7 +297,6 @@ public class ReadRepository {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        long queryExecutionTime = 0;
 
         Object parsedProperty = parseInput(col, property);
 
@@ -319,6 +318,50 @@ public class ReadRepository {
 
             pstmt.setString(1, "%" + property + "%");
 
+            rs = pstmt.executeQuery();
+
+
+            while (rs.next()) {
+                RealDTO realDTO = new RealDTO(
+                        rs.getLong("eid"),
+                        rs.getString("district_name"),
+                        rs.getString("legal_dong_name"),
+                        rs.getLong("main_lot"),
+                        rs.getLong("sub_lot"),
+                        rs.getString("building_name"),
+                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
+                        rs.getLong("property_price"),
+                        rs.getLong("building_area"),
+                        rs.getLong("floor"),
+                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
+                        rs.getString("building_purpose"),
+                        rs.getString("report_type")
+                );
+                estates.add(realDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Database error occurred while fetching estates", e);
+        } finally {
+            // DBUtil을 사용해 자원 정리
+            DBUtil.close(conn, pstmt, rs);
+        }
+        return estates;
+    }
+
+
+    public List<RealDTO> selectSpecificColumns(String selection) {
+
+        String query = "SELECT " + selection + " FROM real_estate_data";
+        List<RealDTO> estates = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            // DBUtil을 통해 Connection 획득
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(query);
             rs = pstmt.executeQuery();
 
 
