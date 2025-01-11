@@ -98,48 +98,48 @@ public class RunningStartView {
 							System.out.print(field + " 입력: ");
 							String input = scanner.nextLine().trim();
 
+							// 필드에 따라 데이터 매핑
 							switch (field.split(" ")[1]) {
 								case "(district_name)":
-									newProperty.setDistrictName(input);
+									newProperty.setDistrictName(input.isEmpty() ? null : input);
 									break;
 								case "(legal_dong_name)":
-									newProperty.setLegalDongName(input);
+									newProperty.setLegalDongName(input.isEmpty() ? null : input);
 									break;
 								case "(main_lot)":
-									newProperty.setMainLot(Long.parseLong(input));
+									newProperty.setMainLot(input.isEmpty() ? null : Long.parseLong(input));
 									break;
 								case "(sub_lot)":
-									newProperty.setSubLot(Long.parseLong(input));
+									newProperty.setSubLot(input.isEmpty() ? null : Long.parseLong(input));
 									break;
 								case "(building_name)":
-									newProperty.setBuildingName(input);
+									newProperty.setBuildingName(input.isEmpty() ? null : input);
 									break;
 								case "(contract_date,":
-									newProperty.setContractDate(LocalDate.parse(input));
+									newProperty.setContractDate(input.isEmpty() ? null : LocalDate.parse(input));
 									break;
 								case "(property_price)":
-									newProperty.setPropertyPrice(Long.parseLong(input));
+									newProperty.setPropertyPrice(input.isEmpty() ? null : Long.parseLong(input));
 									break;
 								case "(building_area)":
-									newProperty.setBuildingArea(Long.parseLong(input));
+									newProperty.setBuildingArea(input.isEmpty() ? null : Long.parseLong(input));
 									break;
 								case "(floor)":
-									newProperty.setFloor(Long.parseLong(input));
+									newProperty.setFloor(input.isEmpty() ? null : Long.parseLong(input));
 									break;
 								case "(cancellation_date,":
-									newProperty.setCancellationDate(LocalDate.parse(input));
+									newProperty.setCancellationDate(input.isEmpty() ? null : LocalDate.parse(input));
 									break;
 								case "(building_purpose)":
-									newProperty.setBuildingPurpose(input);
+									newProperty.setBuildingPurpose(input.isEmpty() ? null : input);
 									break;
 								case "(report_type)":
-									newProperty.setReportType(input);
+									newProperty.setReportType(input.isEmpty() ? null : input);
 									break;
 								default:
 									System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
 							}
 						}
-
 						// 입력 데이터 확인
 						System.out.println("========================= 입력 데이터 =========================");
 						System.out.println(newProperty);
