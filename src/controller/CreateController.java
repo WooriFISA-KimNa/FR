@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
+import dto.RealDTO;
 import repository.CreateRepository;
 import view.EndView;
 
@@ -58,6 +59,19 @@ public class CreateController {
 			//RunningEndView.showError("trigger 생성 에러 발생");
 			EndView.showError("trigger 생성 에러 발생");
 		}
+		return result;
+	}
+
+	public static boolean insertSingleData(RealDTO property) {
+		boolean result = false;
+
+		try{
+			result = CreateRepository.insertSingleData(property);
+		}catch(SQLException e){
+			e.printStackTrace();
+			EndView.showError("입력중 오류 발생");
+		}
+
 		return result;
 	}
 }
