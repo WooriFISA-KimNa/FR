@@ -1,12 +1,12 @@
 package view;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 
 import controller.CreateController;
 import controller.DeleteController;
 import controller.ReadController;
+import dto.RealDTO;
 import repository.ReadRepository;
 import controller.ReadController;
 import controller.UpdateController;
@@ -59,8 +59,7 @@ public class RunningStartView {
 				""");
 		while (true)
 			try {
-				{
-				}
+
 				System.out.println("========================= 메뉴 =========================");
 				System.out.println("실행할 옵션을 입력해주세요");
 				System.out.println("1. 추가  |  2. 조회  |  3. 수정  |  4. 삭제  |  5.종료");
@@ -70,12 +69,101 @@ public class RunningStartView {
 				boolean validInput = false;
 
 				switch (choice) {
-				case 1:
-					// 추가
-					System.out.println("========================= 추가 메뉴 =========================");
+					case 1:
+						// 추가
+						System.out.println("========================= 추가 메뉴 =========================");
+						System.out.println("다음 데이터를 입력하세요:");
 
-					break;
-				case 2:
+						// 입력 필드
+						String[] fields = {
+								"자치구명 (district_name)",
+								"법정동명 (legal_dong_name)",
+								"본번 (main_lot)",
+								"부번 (sub_lot)",
+								"건물명 (building_name)",
+								"계약일 (contract_date, 형식: yyyy-MM-dd)",
+								"물건금액 (property_price)",
+								"건물면적 (building_area)",
+								"층 (floor)",
+								"취소일 (cancellation_date, 형식: yyyy-MM-dd)",
+								"건축용도 (building_purpose)",
+								"신고구분 (report_type)"
+						};
+
+						// 데이터를 저장할 DTO 객체
+						RealDTO newProperty = new RealDTO();
+
+						scanner.nextLine(); // 이전 입력 버퍼 정리
+						for (String field : fields) {
+							System.out.print(field + " 입력: ");
+							String input = scanner.nextLine().trim();
+
+							// 필드에 따라 데이터 매핑
+							switch (field.split(" ")[1]) {
+								case "(district_name)":
+									newProperty.setDistrictName(input.isEmpty() ? null : input);
+									break;
+								case "(legal_dong_name)":
+									newProperty.setLegalDongName(input.isEmpty() ? null : input);
+									break;
+								case "(main_lot)":
+									newProperty.setMainLot(input.isEmpty() ? null : Long.parseLong(input));
+									break;
+								case "(sub_lot)":
+									newProperty.setSubLot(input.isEmpty() ? null : Long.parseLong(input));
+									break;
+								case "(building_name)":
+									newProperty.setBuildingName(input.isEmpty() ? null : input);
+									break;
+								case "(contract_date,":
+									newProperty.setContractDate(input.isEmpty() ? null : LocalDate.parse(input));
+									break;
+								case "(property_price)":
+									newProperty.setPropertyPrice(input.isEmpty() ? null : Long.parseLong(input));
+									break;
+								case "(building_area)":
+									newProperty.setBuildingArea(input.isEmpty() ? null : Long.parseLong(input));
+									break;
+								case "(floor)":
+									newProperty.setFloor(input.isEmpty() ? null : Long.parseLong(input));
+									break;
+								case "(cancellation_date,":
+									newProperty.setCancellationDate(input.isEmpty() ? null : LocalDate.parse(input));
+									break;
+								case "(building_purpose)":
+									newProperty.setBuildingPurpose(input.isEmpty() ? null : input);
+									break;
+								case "(report_type)":
+									newProperty.setReportType(input.isEmpty() ? null : input);
+									break;
+								default:
+									System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
+							}
+						}
+						// 입력 데이터 확인
+						System.out.println("========================= 입력 데이터 =========================");
+						System.out.println(newProperty);
+						System.out.print("이 데이터를 추가하시겠습니까? (Y/N): ");
+						String confirmation = scanner.nextLine().trim().toUpperCase();
+
+						if (confirmation.equals("Y")) {
+							// eid는 자동 생성되므로 null로 설정
+							newProperty.setEid(null);
+
+							// 데이터 삽입
+							boolean result = CreateController.insertSingleData(newProperty);
+							if (result) {
+								System.out.println("데이터가 성공적으로 추가되었습니다.");
+							}else{
+								System.out.println("데이터 삽입에 실패했습니다.");
+							}
+
+						} else {
+							System.out.println("추가 작업이 취소되었습니다.");
+						}
+						break;
+
+					case 2:
 					// 검색
 					System.out.println("========================= 조회 메뉴 =========================");
 					System.out.println("실행할 옵션을 입력해주세요");
