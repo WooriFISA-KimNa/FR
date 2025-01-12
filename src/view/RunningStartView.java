@@ -1,15 +1,15 @@
 package view;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 import controller.CreateController;
 import controller.DeleteController;
 import controller.ReadController;
-import dto.RealDTO;
-import repository.ReadRepository;
-import controller.ReadController;
 import controller.UpdateController;
+import dto.RealDTO;
 import repository.ReadRepository;
 import repository.UpdateRepository;
 
@@ -17,7 +17,6 @@ import repository.UpdateRepository;
 public class RunningStartView {
 
 	public static void main(String[] args) {
-
 		ReadRepository readRepository = new ReadRepository();
 		ReadController readController = new ReadController(readRepository);
 		UpdateRepository updateRepository = new UpdateRepository();
@@ -36,17 +35,17 @@ public class RunningStartView {
 
 
 
-		System.out.println("***** DB 테이블 생성 *****");
-		CreateController.createTable();
-
-		System.out.println("***** sequence 생성 *****");
-		CreateController.createSequence();
-
-		System.out.println("***** trigger 생성 *****");
-		CreateController.createTrigger();
-
-		System.out.println("***** 테이블에 데이터 생성 *****");
-		CreateController.insertData();
+//		System.out.println("***** DB 테이블 생성 *****");
+//		CreateController.createTable();
+//
+//		System.out.println("***** sequence 생성 *****");
+//		CreateController.createSequence();
+//
+//		System.out.println("***** trigger 생성 *****");
+//		CreateController.createTrigger();
+//
+//		System.out.println("***** 테이블에 데이터 생성 *****");
+//		CreateController.insertData();
 
 
 		System.out.println("""
@@ -327,9 +326,9 @@ public class RunningStartView {
 							"계약일: contract_date | 물건금액: property_price | 건물면적: building_area | 층: floor | 취소일: cancellation_date");
 					System.out.println(
 							"건축용도: building_purpose | 신고구분: report_type");
-					System.out.print("수정할 특정 컬럼을 입력: ");
+					System.out.print("수정을 위해 조회할 특정 컬럼을 입력해주세요: ");
 					col = scanner.next();
-					System.out.print("수정할 내용을 입력: ");
+					System.out.print("조회할 데이터의 조건을 입력해주세요: ");
 					property = scanner.next();
 					updateController.update(col, property);
 					break;

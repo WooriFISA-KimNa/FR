@@ -54,7 +54,7 @@ public class UpdateRepository {
 
 			if (result == 1 && rs.next()) {
 				System.out.println("기존값");
-//				EndView.display(estate);
+				EndView.display(estate);
 
 				estate = new RealDTO(rs.getLong("eid"), rs.getString("district_name"), rs.getString("legal_dong_name"),
 						rs.getLong("main_lot"), rs.getLong("sub_lot"), rs.getString("building_name"),
@@ -64,7 +64,7 @@ public class UpdateRepository {
 						rs.getString("building_purpose"), rs.getString("report_type"));
 
 				System.out.println("수정값");
-//				EndView.display(estate);
+				EndView.display(estate);
 
 				return true;
 			}
@@ -80,7 +80,7 @@ public class UpdateRepository {
 		Scanner scanner = new Scanner(System.in);
 
 		estates = readRepository.findByPropertyDTO(col, property);
-//		EndView.displayAsIndexTable(estates);
+		EndView.displayAsIndexTable(estates);
 
 		System.out.print("변경할 행의 인덱스: ");
 		String index = scanner.next();

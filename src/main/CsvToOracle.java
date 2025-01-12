@@ -3,8 +3,6 @@ package main;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-import controller.DeleteController;
-
 public class CsvToOracle {
 	private static final String DB_URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe"; // Oracle DB URL
 	private static final String DB_USER = "scott"; // DB 사용자 이름
@@ -54,7 +52,7 @@ public class CsvToOracle {
 //                + "land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name"
 //                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)";
 //
-//        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
+//        try (BufferedReader br = new BufferedReader(new FileReader("data.csv"));
 //        	     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 //        	     PreparedStatement preparedStatement = connection.prepareStatement(insertQuery,PreparedStatement.RETURN_GENERATED_KEYS)) {
 //
@@ -142,12 +140,12 @@ public class CsvToOracle {
 //		updateController.update("district_name", "광진구");
 		
 		
-		DeleteController.selectEstate("60", "4");
-		System.out.println("출력 성공");
-		
-		DeleteController.deleteEstate("60", "4");
-		DeleteController.selectEstate("60","4");
-		System.out.println("삭제 성공");
+//		DeleteController.selectEstate("60", "4");
+//		System.out.println("출력 성공");
+//		
+//		DeleteController.deleteEstate("60", "4");
+//		DeleteController.selectEstate("60","4");
+//		System.out.println("삭제 성공");
 
 
 	}
