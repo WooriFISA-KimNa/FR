@@ -32,23 +32,23 @@ public class RunningStartView {
 		int choice; // 사용자가 선택할 메뉴 번호
 		List<String> validColumnsList = Arrays.asList("eid", "district_name", "legal_dong_name", "main_lot", "sub_lot", "building_name", "contract_date", "property_price");
 
+		
+		System.out.println("***** DB 테이블 생성 *****");
+		CreateController.createTable();
 
+		System.out.println("***** sequence 생성 *****");
+		CreateController.createSequence();
 
+		CreateController.createTrigger();
 
-//		System.out.println("***** DB 테이블 생성 *****");
-//		CreateController.createTable();
-//
-//		System.out.println("***** sequence 생성 *****");
-//		CreateController.createSequence();
-//
-//		System.out.println("***** trigger 생성 *****");
-//		CreateController.createTrigger();
-//
-//		System.out.println("***** 테이블에 데이터 생성 *****");
-//		CreateController.insertData();
+		System.out.println("***** 테이블에 데이터 생성 *****");
+		CreateController.insertData();
+		
+
 
 
 		System.out.println("""
+				\n\n\n\n\n\n
 				F)ffffff R)rrrrr
 				F)       R)    rr
 				F)fffff  R)  rrr
@@ -62,7 +62,7 @@ public class RunningStartView {
 				System.out.println("========================= 메뉴 =========================");
 				System.out.println("실행할 옵션을 입력해주세요");
 				System.out.println("1. 추가  |  2. 조회  |  3. 수정  |  4. 삭제  |  5.종료");
-				System.out.print("실행할 옵션을 입력");
+				System.out.print("실행할 옵션을 입력: ");
 
 				choice = scanner.nextInt();
 				boolean validInput = false;
