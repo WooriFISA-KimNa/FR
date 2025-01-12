@@ -39,6 +39,7 @@ public class RunningStartView {
 		System.out.println("***** sequence 생성 *****");
 		CreateController.createSequence();
 
+		System.out.println("***** trigger 생성 *****");
 		CreateController.createTrigger();
 
 		System.out.println("***** 테이블에 데이터 생성 *****");
