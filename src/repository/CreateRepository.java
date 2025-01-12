@@ -8,7 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
+
+import com.mysql.cj.protocol.Resultset;
 
 import dto.RealDTO;
 import util.CSVUtil;
@@ -53,7 +54,7 @@ public class CreateRepository {
 			conn = DBUtil.getConnection();
 			pstmt = conn.prepareStatement(checkTableQuery);
 
-			ResultSet rs = pstmt.executeQuery(checkTableQuery);
+			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next() && rs.getInt(1) == 0) {
 				pstmt = conn.prepareStatement(createTableQuery);
@@ -173,16 +174,54 @@ public class CreateRepository {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
+	    String checkSequenceQuery = """
+	            SELECT COUNT(*)
+	            FROM user_sequences
+	            WHERE sequence_name = 'EXAMPLE_SEQ'
+	            """;
+	    
+	    String checkTriggerQuery = """
+	            SELECT COUNT(*)
+	            FROM user_triggers
+	            WHERE trigger_name = 'EXAMPLE_TRIGGER'
+	            """;
+	    
+	    String dropSequenceQuery = "DROP SEQUENCE example_seq";
+	    
+	    String dropTriggerQuery = "DROP TRIGGER example_trigger";
+	    
 		String createSequenceQuery = """
 				CREATE SEQUENCE example_seq
 					START WITH 1
 					INCREMENT BY 1
 					NOCACHE
 				""";
+		
+		
 		try {
 			conn = DBUtil.getConnection();
+			pstmt = conn.prepareStatement(checkTriggerQuery);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			if (rs.next() && rs.getInt(1) > 0) {
+				System.out.println("Trigger already exists.");
+				pstmt = conn.prepareStatement(dropTriggerQuery);
+				result = pstmt.executeUpdate();
+				System.out.println("Trigger drop successfully.");				
+			}
+			
+			pstmt = conn.prepareStatement(checkSequenceQuery);
+			rs = pstmt.executeQuery();
+			if (rs.next() && rs.getInt(1) >  0) {
+				System.out.println("Sequence already exists.");
+				pstmt = conn.prepareStatement(dropSequenceQuery);
+				result = pstmt.executeUpdate();
+				System.out.println("Sequence drop successfully.");
+			}
+				
 			pstmt = conn.prepareStatement(createSequenceQuery);
-
 			result = pstmt.executeUpdate();
 
 			System.out.println("sequence created successfully.");			
@@ -194,6 +233,9 @@ public class CreateRepository {
 		}
 		return false;
 	}
+	
+	
+	
 	
 	public static boolean createTrigger() throws SQLException {
 		Connection conn = null;
@@ -216,7 +258,7 @@ public class CreateRepository {
 
 			result = stmt.executeUpdate(createTriggerQuery);
 
-			System.out.println("sequence created successfully.");			
+			System.out.println("Trigger created successfully.");			
 		} finally {
 			DBUtil.close(conn, stmt);
 		}
