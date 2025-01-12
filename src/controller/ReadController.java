@@ -54,8 +54,17 @@ public class ReadController {
     }
 
     public void selectSpecificColumns(String col){
-        List<RealDTO> estates = readRepository.selectSpecificColumns(col);
-        EndView.displayAsTable(estates);
+        String query = "SELECT " + col + " FROM real_estate_data";
+
+        List<List<Object>> results = readRepository.selectSpecificColumns(query);
+
+        // 결과 출력
+        for (List<Object> row : results) {
+            for (Object value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
+        }
     }
 
 }

@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import dto.RealDTO;
 import util.CSVUtil;
 import util.DBUtil;
 
@@ -224,5 +226,38 @@ public class CreateRepository {
 		return false;
 		
 	}
-	
+
+	public static boolean insertSingleData(RealDTO property) throws SQLException{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String sql = "INSERT INTO real_estate_data " +
+				"(district_name, legal_dong_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area, floor, cancellation_date, building_purpose, report_type) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		try{
+			conn = DBUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, property.getDistrictName());
+			pstmt.setString(2, property.getLegalDongName());
+			pstmt.setLong(3, property.getMainLot());
+			pstmt.setLong(4, property.getSubLot());
+			pstmt.setString(5, property.getBuildingName());
+			pstmt.setDate(6, java.sql.Date.valueOf(property.getContractDate()));
+			pstmt.setLong(7, property.getPropertyPrice());
+			pstmt.setLong(8, property.getBuildingArea());
+			pstmt.setLong(9, property.getFloor());
+			pstmt.setDate(10, property.getCancellationDate() != null ? java.sql.Date.valueOf(property.getCancellationDate()) : null);
+			pstmt.setString(11, property.getBuildingPurpose());
+			pstmt.setString(12, property.getReportType());
+
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result == 1;
+	}
 }

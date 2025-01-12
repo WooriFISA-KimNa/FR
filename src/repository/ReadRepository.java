@@ -359,47 +359,44 @@ public class ReadRepository {
     }
 
 
-    public List<RealDTO> selectSpecificColumns(String selection) {
-
-        String query = "SELECT " + selection + " FROM real_estate_data";
-        List<RealDTO> estates = new ArrayList<>();
+    public List<List<Object>> selectSpecificColumns(String query) {
+        List<List<Object>> results = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
-            // DBUtil을 통해 Connection 획득
             conn = DBUtil.getConnection();
             pstmt = conn.prepareStatement(query);
             rs = pstmt.executeQuery();
 
+            // ResultSet의 컬럼 이름 및 개수 가져오기
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
 
+            // 컬럼 이름을 첫 번째 행에 추가
+            List<Object> columnNames = new ArrayList<>();
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames.add(metaData.getColumnName(i));
+            }
+            results.add(columnNames);
+
+            // 데이터 추가
             while (rs.next()) {
-                RealDTO realDTO = new RealDTO(
-                        rs.getLong("eid"),
-                        rs.getString("district_name"),
-                        rs.getString("legal_dong_name"),
-                        rs.getLong("main_lot"),
-                        rs.getLong("sub_lot"),
-                        rs.getString("building_name"),
-                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
-                        rs.getLong("property_price"),
-                        rs.getLong("building_area"),
-                        rs.getLong("floor"),
-                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
-                        rs.getString("building_purpose"),
-                        rs.getString("report_type")
-                );
-                estates.add(realDTO);
+                List<Object> row = new ArrayList<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    row.add(rs.getObject(i));
+                }
+                results.add(row);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Database error occurred while fetching estates", e);
         } finally {
-            // DBUtil을 사용해 자원 정리
             DBUtil.close(conn, pstmt, rs);
         }
-        return estates;
+
+        return results;
     }
 
 

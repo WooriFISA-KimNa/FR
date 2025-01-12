@@ -2,3 +2,5 @@
 *.properties
 target
 .settings
+target/
+*.class
