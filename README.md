@@ -40,13 +40,15 @@ MySQL의 특정 컬럼에 대한 auto increment 기능이 Oracle 12 버전에서
 
 
 3. 수정
-  -
+  - 수정할 컬럼 조회후 조건 입력 후 수정
 
 
 4. 삭제
-  -
+  - 본번, 부번에 해당하는 데이터 삭제
 
 ## Flow Chart
+<img width="878" alt="image" src="https://github.com/user-attachments/assets/b2864bfb-3828-484b-8575-de2e349caf85" />
+
 
 
 ## 주요 코드
