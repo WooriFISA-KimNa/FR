@@ -10,6 +10,11 @@ Real Estate Real transaction data
 ## 사용 기술
 <img src="https://img.icons8.com/?size=100&id=39913&format=png&color=000000/Oracle?style=for-the-badge&logo=Oracle&logoColor=white"><img src="https://img.icons8.com/?size=100&id=13679&format=png&color=000000/Java?style=for-the-badge&logo=Java&logoColor=white">
 
+## 실헹환경
+- Java 17
+- Oracle 11 EE
+- Ubuntu 24.04.1
+
 
 
 ## 프로젝트 소개
