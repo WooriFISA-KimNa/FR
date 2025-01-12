@@ -59,6 +59,10 @@ SpringBoot에 존재하는 AOP의 개념을 일반 자바 프로그램에도 적
 기존에 존재하던 코드에서 Controller 내부 함수에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 시간 측정으로 비정확한 시간 측정.
 Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 측정 진행
 
+## 실행 화면
+<img width="834" alt="image" src="https://github.com/user-attachments/assets/c1222ac9-48b3-4fba-8944-6231cbc76530" />
+
+
 
 ## 쿼리 실행 시간 비교
 
