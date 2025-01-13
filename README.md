@@ -1,6 +1,12 @@
 # 🏘️ FR : For Real For Real Estate
 Real Estate Real transaction data
 
+
+## 프로젝트 소개
+[공공데이터포털](https://www.data.go.kr/)에 존재하는 부동산 실거래 데이터 csv파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
+Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작
+
+
 ## 목차 
 - [Contributors](#contributors)
 - [개발 환경](#개발-환경)
@@ -32,9 +38,38 @@ Real Estate Real transaction data
 ![image](https://github.com/user-attachments/assets/1c4ce90d-af91-47fb-8d48-b45b45939873)
 
 
-## 프로젝트 소개
-[공공데이터포털](https://www.data.go.kr/)에 존재하는 부동산 실거래 데이터 csv파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
-Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작
+## 프로젝트 파일 구조
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/5dbc3534-b708-4812-9745-7e15199260e2" alt="image" width="900"/>
+    </td>
+    <td>
+      <strong>1. C, R, U, D 각각의 컨트롤러 및 DAO 파일 분할</strong>
+       <ul>
+        <li>하나의 테이블만을 사용하므로 각 기능을 담당하는 사람이 한 명씩 맡아 구현할 수 있도록 파일을 분할했습니다.</li>
+      </ul>
+      <ul>
+        <li>각자의 역할에 맞는 기능을 담당하는 파일을 분리함으로써 코드의 책임을 명확히 하고, 작업 분담을 용이하게 하여 효율적인 협업을 도왔습니다.</li>
+      </ul>
+      <strong>2. DB 접속 정보 분할 (dbinfo.properties)</strong> 
+      <ul>
+        <li>DB 접속 정보를 별도의 dbinfo.properties 파일로 분리하여 하드코딩을 방지하고, 보안과 환경 설정 관리를 용이하게 했습니다.</li>
+      </ul>
+      <ul>
+        <li>이 파일을 .gitignore에 추가하여, 소스 코드와 DB 접속 정보를 분리하여 Git에 관리되지 않도록 하여 보안을 강화하고, 민감한 정보가 노출되지 않도록 했습니다.</li>
+      </ul>
+      <strong>3. Util 파일 생성</strong>
+	<ul>
+        <li>CRUD 작업에 공통적으로 필요한 DB 연결 및 자원 해제(close) 함수를 static 메소드로 Util 클래스를 통해 분리하여 코드의 중복을 최소화하고 재사용성을 높였습니다.</li>
+      </ul>
+      <ul>
+        <li>데이터 유효성 체크 함수를 별도로 분리하여 재사용이 가능하도록 구현함으로써, 각 기능에서 데이터 처리의 일관성을 유지하고, 데이터의 품질을 관리할 수 있었습니다.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 
 
 - 인덱스 관련 테이블 설정
