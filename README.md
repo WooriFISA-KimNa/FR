@@ -1,20 +1,21 @@
-# 🏘️ FR : For Real For Real Estate
+# 🏘️ FR : For Real Data For Real Estate
 Real Estate Real transaction data
 
 
 ## 프로젝트 소개
-CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이터를 사용하고자 하는 목표에서 착안해 [공공데이터포털](https://www.data.go.kr/)에 존재하는 부동산 실거래 데이터를 주제로 선정.
-csv파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
-Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작
+CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이터를 사용하고자 하는 목표에서 착안해 [공공데이터포털](https://www.data.go.kr/)에 존재하는 서울특별시 부동산 실거래 데이터를 주제로 선정.
+전체 데이터는 너무 많은 관계로 2024년 거래 데이터 약 10만건만을 추출해서 사용.
+CSV 파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
+Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작.
 
 
 ## 목차 
 - [Contributors](#contributors)
 - [개발 환경](#개발-환경)
 - [아키텍처 구조](#아키텍처-구조)
-- [프로젝트 소개](#프로젝트-소개)
+- [프로젝트 파일 구조](#프로젝트-파일-구조)
+- [프로젝트 기능](#프로젝트-기능)
 - [Flow Chart](#flow-chart)
-- [주요 코드](#주요-코드)
 - [REFACTORING](#refactoring)
 - [실행 화면](#실행-화면)
 - [쿼리 실행 시간 비교](#쿼리-실행-시간-비교)
@@ -48,24 +49,24 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
     <td>
       <strong>1. C, R, U, D 각각의 컨트롤러 및 DAO 파일 분할</strong>
        <ul>
-        <li>하나의 테이블만을 사용하므로 각 기능을 담당하는 사람이 한 명씩 맡아 구현할 수 있도록 파일을 분할했습니다.</li>
+        <li>하나의 테이블만을 사용하므로 각 기능을 담당하는 사람이 한 명씩 맡아 구현할 수 있도록 파일 분할.</li>
       </ul>
       <ul>
-        <li>각자의 역할에 맞는 기능을 담당하는 파일을 분리함으로써 코드의 책임을 명확히 하고, 작업 분담을 용이하게 하여 효율적인 협업을 도왔습니다.</li>
+        <li>각자의 역할에 맞는 기능을 담당하는 파일을 분리함으로써 코드의 책임을 명확히 하고, 작업 분담을 용이하게 하여 효율적인 협업을 추구.</li>
       </ul>
       <strong>2. DB 접속 정보 분할 (dbinfo.properties)</strong> 
       <ul>
-        <li>DB 접속 정보를 별도의 dbinfo.properties 파일로 분리하여 하드코딩을 방지하고, 보안과 환경 설정 관리를 용이하게 했습니다.</li>
+        <li>DB 접속 정보를 별도의 dbinfo.properties 파일로 분리하여 하드코딩을 방지하고, 보안과 환경 설정 관리를 용이하게 함.</li>
       </ul>
       <ul>
-        <li>이 파일을 .gitignore에 추가하여, 소스 코드와 DB 접속 정보를 분리하여 Git에 관리되지 않도록 하여 보안을 강화하고, 민감한 정보가 노출되지 않도록 했습니다.</li>
+        <li>이 파일을 .gitignore에 추가하여, 소스 코드와 DB 접속 정보를 분리하여 Git에 관리되지 않도록 하여 보안을 강화하고, 민감한 정보가 노출되지 않도록 함.</li>
       </ul>
       <strong>3. Util 파일 생성</strong>
 	<ul>
-        <li>CRUD 작업에 공통적으로 필요한 DB 연결 및 자원 해제(close) 함수를 static 메소드로 Util 클래스를 통해 분리하여 코드의 중복을 최소화하고 재사용성을 높였습니다.</li>
+        <li>CRUD 작업에 공통적으로 필요한 DB 연결 및 자원 해제(close) 함수를 static 메소드로 Util 클래스를 통해 분리하여 코드의 중복을 최소화하고 재사용성을 높임.</li>
       </ul>
       <ul>
-        <li>데이터 유효성 체크 함수를 별도로 분리하여 재사용이 가능하도록 구현함으로써, 각 기능에서 데이터 처리의 일관성을 유지하고, 데이터의 품질을 관리할 수 있었습니다.</li>
+        <li>데이터 유효성 체크 함수를 별도로 분리하여 재사용이 가능하도록 구현함으로써, 각 기능에서 데이터 처리의 일관성을 유지하고, 데이터의 품질을 관리함.</li>
       </ul>
     </td>
   </tr>
@@ -115,10 +116,11 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 
 
 
-## 주요 코드
-
-
 ## REFACTORING
+
+
+StreamAPI와 Lambda 표현식을 학습한 이후 활용한 코드 리팩토링
+
 ```java
 //기존 EndView
 for (List<Object> row : results) {
@@ -139,17 +141,145 @@ results.stream()
 	           System.out.println();
 	       });
 ```
-SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 효율적인 코드 작성 고려하고자 함.
-기존에 존재하던 코드에서 Controller 내부 함수에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 시간 측정으로 비정확한 시간 측정.
-Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 측정 진행
+
+
+SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 쿼리 튜닝을 고려하고자 함.
+기존에 존재하던 코드에서 Controller 함수 내부에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 총 execution time 측정.
+
+
+CRUD 작업을 진행하면서 크게 필요를 느끼지 못해 Service 계층을 생략했던 코드 구조를 변경해 Service 계층에 프록시 계층을 추가
+2. 조회
+  - 모든 데이터 조회
+  - 특정 조건 조회(정확한 데이터 입력)
+  - 특정 조건 조회(데이터 일부만 입력, Like 사용)
+  - 특정 컬럼 선택 조회
+  - 정렬 후 조회
+
+
+3. 수정
+  - 수정할 컬럼 조회후 조건 입력 후 수정
+
+
+4. 삭제
+  - 본번, 부번에 해당하는 데이터 삭제
+
+## Flow Chart
+<img width="868" alt="image" src="https://github.com/user-attachments/assets/d269687f-052e-4872-a15c-3240e73b5049" />
+
+
+
+
+## REFACTORING
+
+
+StreamAPI와 Lambda 표현식을 학습한 이후 활용한 코드 리팩토링
+
+```java
+//기존 EndView
+for (List<Object> row : results) {
+            for (Object value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
+        }
+```
+
+
+```java
+//StreamAPI 사용한 Endview
+results.stream()
+	       .forEach(row -> {
+	           row.stream()
+	               .forEach(value -> System.out.print(value + "\t"));
+	           System.out.println();
+	       });
+```
+
+
+SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 쿼리 튜닝을 고려하고자 함.
+
+
+기존에 존재하던 코드에서 Controller 함수 내부에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 총 execution time 측정.
+
+
+Java Dynamic Proxy를 활용해 시간 측정 관련 로직을 공통으로 사용할 수 있도록 코드 작성.
+
+
+CRUD 작업을 진행하면서 크게 필요를 느끼지 못해 Service 계층을 생략했던 코드 구조를 변경해 Service 계층을 거치기 전 프록시 계층을 추가.
+
+![가 - visual selection](https://github.com/user-attachments/assets/e083217f-ab08-41ee-91ec-cbf05dc2f81a)
+
+
+
+
+```
+package util;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+
+// 동적 프록시 핸들러
+public class AOPUtil implements InvocationHandler {
+    private final Object target;
+
+    public AOPUtil(Object target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        long startTime = System.nanoTime();
+        Object result = method.invoke(target, args); // 실제 메서드 호출
+        long endTime = System.nanoTime();
+        System.out.println("Method [" + method.getName() + "] executed in " + ((endTime - startTime) / 1_000_000) + " milliseconds");
+        return result;
+    }
+
+    public static Object createProxy(Object target) {
+        return Proxy.newProxyInstance(
+                target.getClass().getClassLoader(),
+                target.getClass().getInterfaces(),
+                new AOPUtil(target)
+        );
+    }
+}
+```
+
+
+```
+//생성자 주입 시 프록시 계층 추가
+ReadRepository readRepository = new ReadRepository();
+ReadServiceInterface myService = new ReadService(readRepository);
+ReadServiceInterface proxyService = (ReadServiceInterface) AOPUtil.createProxy(myService);
+// Controller 생성 (Service 주입)
+ReadController readController = new ReadController(proxyService);
+```
+
+
 
 ## 실행 화면
 <img width="834" alt="image" src="https://github.com/user-attachments/assets/c1222ac9-48b3-4fba-8944-6231cbc76530" />
 
+![image](https://github.com/user-attachments/assets/2aa20e44-8cd5-411b-bb19-c24054177fb5)
+
+
+![image](https://github.com/user-attachments/assets/a73ac39e-de07-4d4e-9816-55c611174a2b)
+
+
+![image](https://github.com/user-attachments/assets/53e706b2-98d7-4662-acca-8020d524c178)
+
+
+![image](https://github.com/user-attachments/assets/69cc9564-4138-4d44-89be-95f516fd1856)
+
+
+![image](https://github.com/user-attachments/assets/bfa2905c-220b-4b10-b06a-ccf87e6dd329)
 
 
 ## 추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
+- 완벽한 데이터 전처리를 위한 개선
 
 ## Trouble Shooting
 
@@ -240,7 +370,7 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 이전 코드의 Batch size 500과 비교해 OpenCSV 사용 시 동일 과정에서 직접 파싱을 진행하던 이전 과정에 비해 절반 가량의 시간만 소요. 
 
 
-이후 Batch size를 5000으로 설정하며 평균 6~7s로 시간을 줄일 수 있었음.
+이후 Batch size를 5000으로 설정하며 평균 7~8s로 시간을 줄일 수 있었음.
 
 
 
