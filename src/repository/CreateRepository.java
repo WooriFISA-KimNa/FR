@@ -8,8 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import com.mysql.cj.protocol.Resultset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import dto.RealDTO;
 import util.CSVUtil;
@@ -109,10 +110,9 @@ public class CreateRepository {
 		    br.readLine();
 		    
 		    while ((line = br.readLine()) != null) {
-		        String[] values = line.split(",");
-		        for (int i = 0; i < values.length; i++) {
-		            values[i] = values[i].replace("\"", "").trim(); // " 제거 및 공백 제거
-		        }
+		        String[] values = Stream.of(line.split(","))
+		                .map(value -> value.replace("\"", "").trim()) // " 제거 및 공백 제거
+		                .toArray(String[]::new);
 
 		        // PreparedStatement 바인딩
 		        try {
