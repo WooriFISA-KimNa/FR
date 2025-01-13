@@ -94,6 +94,8 @@ public class CreateRepository {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
 			conn = DBUtil.getConnection();
+			pstmt = conn.prepareStatement("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
+			pstmt.executeUpdate();
 			pstmt = conn.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			conn.setAutoCommit(false);  // 트랜잭션 시작
