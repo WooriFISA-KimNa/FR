@@ -188,9 +188,7 @@ public class ReadRepository {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        long queryExecutionTime = 0;
         String query = "SELECT * FROM real_estate_data WHERE " + col + " = ?";
-        Object parsedProperty = parseInput(col, property);
         List<RealDTO> estates = new ArrayList<>();
 
         try {
@@ -198,17 +196,11 @@ public class ReadRepository {
             conn = DBUtil.getConnection();
             pstmt = conn.prepareStatement(query);
 
-            if (parsedProperty instanceof String) {
-                pstmt.setString(1, (String) parsedProperty);
-            } else if (parsedProperty instanceof Long) {
-                pstmt.setLong(1, (Long) parsedProperty);
-            } else if (parsedProperty instanceof LocalDate) {
-                pstmt.setDate(1, java.sql.Date.valueOf((LocalDate) parsedProperty));
-            } else {
-                throw new IllegalArgumentException("Unsupported property type: " + property.getClass().getSimpleName());
-            }
-            rs = pstmt.executeQuery();
+            // parseInput으로 property 파싱 및 값 설정
+            Object parsedProperty = parseInput(col, property);
+            setPreparedStatementValue(pstmt, 1, parsedProperty); // 값을 설정하는 메서드 사용
 
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 RealDTO realDTO = new RealDTO(
@@ -237,6 +229,20 @@ public class ReadRepository {
         }
         return estates;
     }
+
+    // PreparedStatement 값 설정을 처리하는 메서드
+    private void setPreparedStatementValue(PreparedStatement pstmt, int parameterIndex, Object value) throws SQLException {
+        if (value instanceof String) {
+            pstmt.setString(parameterIndex, (String) value);
+        } else if (value instanceof Long) {
+            pstmt.setLong(parameterIndex, (Long) value);
+        } else if (value instanceof LocalDate) {
+            pstmt.setDate(parameterIndex, java.sql.Date.valueOf((LocalDate) value));
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + value.getClass().getSimpleName());
+        }
+    }
+
 
     public List<RealDTO> orderByColumn(String col, String order) {
         Connection conn = null;
@@ -392,11 +398,10 @@ public class ReadRepository {
     }
 
     public List<RealDTO> selectLocationRank(){
-    	String query = "SELECT * FROM real_estate_data WHERE " + col + " LIKE ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
+        List<RealDTO> results = null;
     	
     	return results;
     }

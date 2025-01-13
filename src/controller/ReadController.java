@@ -25,10 +25,10 @@ public class ReadController {
         EndView.displayAsTable(estates);
     }
 
-    public void findByProperty(String col, String prop){
-        List<Estate> estates = readRepository.findByProperty(col, prop);
+//    public void findByProperty(String col, String prop){
+//        List<Estate> estates = readRepository.findByProperty(col, prop);
         //EndView.displayAsTable(estates);
-    }
+//    }
 
     public void findByPropertyDTO(String col, String prop){
         List<RealDTO> estates = readRepository.findByPropertyDTO(col, prop);
@@ -62,7 +62,7 @@ public class ReadController {
     }
     
     public void selectLocationRank() {
-    	List<RealDTO> estates = readRepository
+//    	List<RealDTO> estates = readRepository
     }
 
 }
