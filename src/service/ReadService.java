@@ -1,29 +1,52 @@
 package service;
 
-//서비스 인터페이스
-public interface MyService {
- void orderByColumn(String col, String order);
+import dto.RealDTO;
+import repository.ReadRepository;
+import util.AOPUtil;
+import view.EndView;
 
- void findByAnonymousPropertyDTO(String col, String prop);
-}
+import java.util.List;
 
-//실제 서비스 구현 클래스
-public class ReadService implements MyService {
- private final ReadRepository readRepository;
+public class ReadService implements ReadServiceInterface{
 
- public MyServiceImpl(ReadRepository readRepository) {
-     this.readRepository = readRepository;
- }
+    private final ReadRepository readRepository;
 
- @Override
- public void orderByColumn(String col, String order) {
-     List<RealDTO> estates = readRepository.orderByColumn(col, order);
-     EndView.displayAsTable(estates);
- }
+    public ReadService(ReadRepository readRepository) {
+        this.readRepository = readRepository;
+    }
 
- @Override
- public void findByAnonymousPropertyDTO(String col, String prop) {
-     List<RealDTO> estates = readRepository.findByAnonymousPropertyDTO(col, prop);
-     EndView.displayAsTable(estates);
- }
+//    private AOPUtil ExecutionTimeProxy;
+//    ReadService proxyService = (ReadService) ExecutionTimeProxy.createProxy(ReadService.class);
+
+    @Override
+    public void findAllDTO() {
+        List<RealDTO> estates = readRepository.findAllDTO();
+        EndView.displayAsTable(estates);
+    }
+
+    @Override
+    public void findByPropertyDTO(String col, String prop) {
+        List<RealDTO> estates = readRepository.findByPropertyDTO(col, prop);
+        EndView.displayAsTable(estates);
+    }
+
+    @Override
+    public void orderByColumn(String col, String order) {
+        List<RealDTO> estates = readRepository.orderByColumn(col, order);
+        EndView.displayAsTable(estates);
+    }
+
+    @Override
+    public void findByAnonymousPropertyDTO(String col, String prop) {
+        List<RealDTO> estates = readRepository.findByAnonymousPropertyDTO(col, prop);
+        EndView.displayAsTable(estates);
+    }
+
+    @Override
+    public void selectSpecificColumns(String col) {
+        String query = "SELECT " + col + " FROM real_estate_data";
+
+        List<List<Object>> results = readRepository.selectSpecificColumns(query);
+        EndView.displayObject(results);
+    }
 }

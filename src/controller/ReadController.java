@@ -5,24 +5,24 @@ import java.util.List;
 import domain.Estate;
 import dto.RealDTO;
 import repository.ReadRepository;
+import service.ReadServiceInterface;
 import view.EndView;
 
 public class ReadController {
 
-    private final ReadRepository readRepository;
+    private final ReadServiceInterface readService;
 
-    public ReadController(ReadRepository readRepository) {
-        this.readRepository = readRepository;
+    public ReadController(ReadServiceInterface readService) {
+        this.readService = readService;
     }
 
-    public void readAll() {
-        List<RealDTO> estates = readRepository.findAllDTO();
-        EndView.displayAsTable(estates);
-    }
+//    public void readAll() {
+//        List<RealDTO> estates = readRepository.findAllDTO();
+//        EndView.displayAsTable(estates);
+//    }
 
     public void readAllDTO() {
-        List<RealDTO> estates = readRepository.findAllDTO();
-        EndView.displayAsTable(estates);
+        readService.findAllDTO();
     }
 
 //    public void findByProperty(String col, String prop){
@@ -31,34 +31,19 @@ public class ReadController {
 //    }
 
     public void findByPropertyDTO(String col, String prop){
-        List<RealDTO> estates = readRepository.findByPropertyDTO(col, prop);
-        EndView.displayAsTable(estates);
+        readService.findByPropertyDTO(col, prop);
     }
 
     public void orderByColumn(String col, String order){
-        long startTime = System.nanoTime();
-        List<RealDTO> estates = readRepository.orderByColumn(col, order);
-        EndView.displayAsTable(estates);
-        long endTime = System.nanoTime(); // 실행 시간 측정 종료
-        // 실행 시간 출력
-        System.out.println("Query executed in " + ((endTime - startTime) / 1_000_000) + " milliseconds");
+        readService.orderByColumn(col, order);
     }
 
     public void findByAnonymousPropertyDTO(String col, String prop){
-        long startTime = System.nanoTime();
-        List<RealDTO> estates = readRepository.findByAnonymousPropertyDTO(col, prop);
-        long endTime = System.nanoTime(); // 실행 시간 측정 종료
-        EndView.displayAsTable(estates);
-        // 실행 시간 출력
-        System.out.println("Query executed in " + ((endTime - startTime) / 1_000_000) + " milliseconds");
+        readService.findByAnonymousPropertyDTO(col, prop);
     }
 
     public void selectSpecificColumns(String col){
-        String query = "SELECT " + col + " FROM real_estate_data";
-
-        List<List<Object>> results = readRepository.selectSpecificColumns(query);
-        EndView.displayObject(results);
-        
+        readService.selectSpecificColumns(col);
     }
     
     public void selectLocationRank() {

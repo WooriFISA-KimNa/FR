@@ -12,13 +12,21 @@ import controller.UpdateController;
 import dto.RealDTO;
 import repository.ReadRepository;
 import repository.UpdateRepository;
+import service.ReadService;
+import service.ReadServiceInterface;
+import util.AOPUtil;
 
 
 public class RunningStartView {
 
 	public static void main(String[] args) {
 		ReadRepository readRepository = new ReadRepository();
-		ReadController readController = new ReadController(readRepository);
+		ReadServiceInterface myService = new ReadService(readRepository);
+		ReadServiceInterface proxyService = (ReadServiceInterface) AOPUtil.createProxy(myService);
+		// Controller 생성 (Service 주입)
+		ReadController readController = new ReadController(proxyService);
+
+//		ReadController readController = new ReadController(readRepository);
 		UpdateRepository updateRepository = new UpdateRepository();
 		UpdateController updateController = new UpdateController(updateRepository);
 
