@@ -325,11 +325,10 @@ ReadController readController = new ReadController(proxyService);
 나홍찬 : jdbc로 DB의 table, sequence, trigger와 입출력을 구현해보면서 Java의 기본문법과 DTO, DAO, MVC 패턴을 이해할 수 있었던 프로젝트였습니다.
 Maven을 사용해 외부 라이브러리 사용법을 익혔고, 또한 StreamAPI로 Code Refactoring하는 방법을 알게되었습니다.
 
-MVC 패턴을 적용하여 Java JDBC와 Oracle DB를 활용해 CRUD기능을 구현할 수 있었습니다. 이 과정에서 전체적인 아키텍쳐와 개발 프로세스를 명확하게 구분하고, 각 부분이 담당하는 역할을 집중적으로 구현할 수 있었습니다. 
+김창규 : MVC 패턴을 적용하여 Java JDBC와 Oracle DB를 활용해 CRUD기능을 구현할 수 있었습니다. 이 과정에서 전체적인 아키텍쳐와 개발 프로세스를 명확하게 구분하고, 각 부분이 담당하는 역할을 집중적으로 구현할 수 있었습니다. 
 
 
 또한, 진행 중에는 CSV파일 기반으로 10만건의 데이터를 insert할 수 있었고, 구현한 시스템을 바탕으로 쿼리 성능 개선과 예외 처리를 강화하여 더 복잡하고 대용량 데이터처리에서도 안정성을 유지할 수 있도록 할 것입니다.
-
 
 
 데이터 전처리 과정에서 사용빈도가 낮고 null값이 많은 row들을 sql로 처리하려 했으나, 데이터가 대용량으로 시간상 CSV 파일에서 임의로 처리했는데, 이 부분이 아쉬웠으며, 추후 고도화할 여지가 있음을 느꼈습니다.
