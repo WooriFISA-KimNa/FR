@@ -21,7 +21,6 @@ public class CreateRepository {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
-		String checkTableQuery = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'REAL_ESTATE_DATA'";
 		String createTableQuery = """
 				CREATE TABLE real_estate_data (
 				    eid NUMBER PRIMARY KEY,
@@ -48,11 +47,10 @@ public class CreateRepository {
 				    realtor_district_name VARCHAR2(100)
 				)
 				""";
-		String dropTableQuery = "DROP TABLE real_estate_data";
 
 		try {
 			conn = DBUtil.getConnection();
-			pstmt = conn.prepareStatement(checkTableQuery);
+			pstmt = conn.prepareStatement("SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'REAL_ESTATE_DATA'");
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -62,7 +60,7 @@ public class CreateRepository {
 				System.out.println("Table created successfully.");
 			} else {
 				System.out.println("Table already exists.");
-				pstmt = conn.prepareStatement(dropTableQuery);
+				pstmt = conn.prepareStatement("DROP TABLE real_estate_data");
 				result = pstmt.executeUpdate();
 
 				pstmt = conn.prepareStatement(createTableQuery);
@@ -85,12 +83,15 @@ public class CreateRepository {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
-		String insertQuery = "INSERT INTO REAL_ESTATE_DATA ("
-                + "reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type, "
-                + "lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area, "
-                + "land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name"
-                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)";
-
+		String insertQuery = """
+				INSERT INTO REAL_ESTATE_DATA (
+					reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type,
+				    lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area,
+				    land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name
+                ) 		
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)
+				""";
+                		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
 			conn = DBUtil.getConnection();
@@ -155,7 +156,6 @@ public class CreateRepository {
 		            e.printStackTrace();
 		        }
 		    }
-		    
 		    pstmt.executeBatch();
 		    conn.commit();
 
@@ -187,11 +187,7 @@ public class CreateRepository {
 	            FROM user_triggers
 	            WHERE trigger_name = 'EXAMPLE_TRIGGER'
 	            """;
-	    
-	    String dropSequenceQuery = "DROP SEQUENCE example_seq";
-	    
-	    String dropTriggerQuery = "DROP TRIGGER example_trigger";
-	    
+	    	    
 		String createSequenceQuery = """
 				CREATE SEQUENCE example_seq
 					START WITH 1
@@ -199,17 +195,15 @@ public class CreateRepository {
 					NOCACHE
 				""";
 		
-		
 		try {
 			conn = DBUtil.getConnection();
 			pstmt = conn.prepareStatement(checkTriggerQuery);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
-			
 			if (rs.next() && rs.getInt(1) > 0) {
 				System.out.println("Trigger already exists.");
-				pstmt = conn.prepareStatement(dropTriggerQuery);
+				pstmt = conn.prepareStatement("DROP TRIGGER example_trigger");
 				result = pstmt.executeUpdate();
 				System.out.println("Trigger drop successfully.");				
 			}
@@ -218,7 +212,7 @@ public class CreateRepository {
 			rs = pstmt.executeQuery();
 			if (rs.next() && rs.getInt(1) >  0) {
 				System.out.println("Sequence already exists.");
-				pstmt = conn.prepareStatement(dropSequenceQuery);
+				pstmt = conn.prepareStatement("DROP SEQUENCE example_seq");
 				result = pstmt.executeUpdate();
 				System.out.println("Sequence drop successfully.");
 			}
@@ -268,7 +262,6 @@ public class CreateRepository {
 			return true;
 		}
 		return false;
-		
 	}
 
 	public static boolean insertSingleData(RealDTO property) throws SQLException{
@@ -276,9 +269,12 @@ public class CreateRepository {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
-		String sql = "INSERT INTO real_estate_data " +
-				"(district_name, legal_dong_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area, floor, cancellation_date, building_purpose, report_type) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = """
+				INSERT INTO real_estate_data
+						(district_name, legal_dong_name, main_lot, sub_lot, building_name, contract_date, 
+						property_price, building_area, floor, cancellation_date, building_purpose, report_type)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+				""";
 
 		try{
 			conn = DBUtil.getConnection();
@@ -298,10 +294,12 @@ public class CreateRepository {
 			pstmt.setString(12, property.getReportType());
 
 			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} finally {
+			DBUtil.close(conn, pstmt);
 		}
-
-		return result == 1;
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
 }
