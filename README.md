@@ -1,10 +1,10 @@
-# 🏘️ FR
+# 🏘️ FR : For Real For Real Estate
 Real Estate Real transaction data
 
 ## 목차 
 - [Contributors](#contributors)
-- [사용 기술](#사용-기술)
-- [실행 환경](#실행-환경)
+- [개발 환경](#개발-환경)
+- [아키텍처 구조](#아키텍처-구조)
 - [프로젝트 소개](#프로젝트-소개)
 - [Flow Chart](#flow-chart)
 - [주요 코드](#주요-코드)
@@ -12,6 +12,7 @@ Real Estate Real transaction data
 - [실행 화면](#실행-화면)
 - [쿼리 실행 시간 비교](#쿼리-실행-시간-비교)
 - [추가 개선 사항](#추가-개선-사항)
+- [Trouble Shooting](#Trouble-Shooting)
 
 ---
 
@@ -21,14 +22,14 @@ Real Estate Real transaction data
 |:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|
 | [김창규](https://github.com/kcklkb)                         | [김창성](https://github.com/kcs19)                      | [나원호](https://github.com/CooolRyan)                         | [나홍찬](https://github.com/HongChan1412)                         |
 
-## 사용 기술
-<img src="https://img.icons8.com/?size=100&id=39913&format=png&color=000000/Oracle?style=for-the-badge&logo=Oracle&logoColor=white"><img src="https://img.icons8.com/?size=100&id=13679&format=png&color=000000/Java?style=for-the-badge&logo=Java&logoColor=white">
-
-## 실행 환경
+## 개발 환경
 - Java 17
 - Oracle 11 EE
 - Ubuntu 24.04.1
 
+
+## 아키텍처 구조
+![image](https://github.com/user-attachments/assets/1c4ce90d-af91-47fb-8d48-b45b45939873)
 
 
 ## 프로젝트 소개
@@ -37,12 +38,14 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 
 - 인덱스 관련 테이블 설정
-MySQL의 특정 컬럼에 대한 auto increment 기능이 Oracle 12 버전에서부터 generated as identity 라는 명령어로 존재.
-하지만 현재 사용하고 있는 DB는 Oracle 11 버전이기 때문에 이를 사용할 수 없어 시퀀스를 생성하고 테이블에 Trigger를 작성해 수행함으로써 자동 인덱스 생성.
+MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전에서부터 generated as identity 라는 명령어로 존재.**
+하지만 현재 사용하고 있는 DB는 **Oracle 11** 버전이기 때문에 이를 사용할 수 없어 **시퀀스를 생성하고 테이블에 Trigger를 작성해 수행함**으로써 자동 인덱스 생성.
 
 
 - 테이블 전처리
 테이블 전처리의 초반 목표 : 테이블 생성 -> 데이터 삽입 -> 사용하지 않는 컬럼 드랍 -> null 값 존재하는 row 드랍
+
+
 시간 상의 이유로 구현된 전처리 : 테이블 생성 -> 데이터 삽입 -> 일부 컬럼 사용을 위한 DTO 생성
 
 
@@ -79,6 +82,26 @@ MySQL의 특정 컬럼에 대한 auto increment 기능이 Oracle 12 버전에서
 
 
 ## REFACTORING
+```java
+//기존 EndView
+for (List<Object> row : results) {
+            for (Object value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
+        }
+```
+
+
+```java
+//StreamAPI 사용한 Endview
+results.stream()
+	       .forEach(row -> {
+	           row.stream()
+	               .forEach(value -> System.out.print(value + "\t"));
+	           System.out.println();
+	       });
+```
 SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 효율적인 코드 작성 고려하고자 함.
 기존에 존재하던 코드에서 Controller 내부 함수에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 시간 측정으로 비정확한 시간 측정.
 Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 측정 진행
@@ -91,9 +114,43 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 ## 쿼리 실행 시간 비교
 
 
-
 ## 추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 
+## Trouble Shooting
 
+### **CSV 데이터 파싱 오류 해결**
 
+- 데이터베이스에 CSV 파일을 삽입하는 과정에서, 콤마로 구분된 데이터를 처리하기 위해 `split` 메서드를 사용하여 CSV 데이터를 파싱. 하지만, 일부 데이터 내에 콤마가 포함된 경우, 예상치 못한 컬럼 구분이 발생하여 데이터 파싱에 오류 발생.
+
+#### 문제 설명
+> 아래 사진과 같이 데이터 안에 콤마가 포함된 경우, 기본적인 `split` 방식으로 파싱을 진행하면 해당 데이터를 잘못 분리하여, 다른 컬럼으로 이동하는 문제가 발생.
+
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/75f28eac-7a30-4989-a8d6-efea177a10c7" width="48%" style="margin-right: 4%;" />
+  <img src="https://github.com/user-attachments/assets/cf05b858-bb10-495c-87c8-0ed4ec9802d1" width="48%" />
+</div>
+
+#### 해결 방안
+- 이 문제를 해결하기 위해, Maven repository에서 제공하는 `opencsv` 라이브러리를 활용.
+- 특히, `opencsv`는 텍스트 내에서 `"` (큰따옴표)로 감싸진 데이터가 콤마를 포함하더라도 이를 하나의 값으로 인식하여 정확하게 파싱가능.
+- 또한, `opencsv`를 사용함으로써 CSV 파일을 처리하는 속도가 눈에 띄게 개선.
+
+#### 결과
+- `opencsv` 적용 후, CSV 데이터의 파싱 정확도 향상, 대량의 데이터도 빠르게 처리가능해, 데이터 입력 시간 단축.
+---
+### **NLS_DATE_FORMAT 오류 해결**
+
+- Oracle 데이터베이스에 `date` 형식의 데이터를 입력하는 과정에서 예상치 못한 날짜 형식이 입력되는 문제가 발생.
+
+#### 문제 설명
+> 아래 사진과 같이 `2024-12-31`이라는 날짜를 입력했을 때, 데이터베이스에 `2024-12-31 00:00:00.000`이 아닌 `0024-12-31 00:00:00.000` 형식으로 잘못 저장되는 현상이 발생.
+> 
+![image](https://github.com/user-attachments/assets/52023565-0b0e-4287-a8b4-7c6f58cf9eeb)
+
+#### 해결 방안
+- 이 문제를 해결하기 위해, **JDBC**를 사용하여 데이터 입력 전 Oracle 데이터베이스의 세션에 대해 `NLS_DATE_FORMAT`을 명시적으로 설정.
+- `ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'` 명령어를 사용하여 날짜 포맷을 `YYYY-MM-DD`로 설정한 후, 데이터를 입력하면 날짜가 올바르게 `2024-12-31` 형식으로 입력되도록 함.
+
+#### 결과
+`ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'` 명령어를 사용하여 세션의 날짜 포맷을 정확하게 설정한 결과, 데이터베이스에 날짜가 올바르게 입력되었고, 날짜 형식에 의한 오류를 해결
