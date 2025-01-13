@@ -144,59 +144,6 @@ results.stream()
 
 
 SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 쿼리 튜닝을 고려하고자 함.
-기존에 존재하던 코드에서 Controller 함수 내부에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 총 execution time 측정.
-
-
-CRUD 작업을 진행하면서 크게 필요를 느끼지 못해 Service 계층을 생략했던 코드 구조를 변경해 Service 계층에 프록시 계층을 추가
-2. 조회
-  - 모든 데이터 조회
-  - 특정 조건 조회(정확한 데이터 입력)
-  - 특정 조건 조회(데이터 일부만 입력, Like 사용)
-  - 특정 컬럼 선택 조회
-  - 정렬 후 조회
-
-
-3. 수정
-  - 수정할 컬럼 조회후 조건 입력 후 수정
-
-
-4. 삭제
-  - 본번, 부번에 해당하는 데이터 삭제
-
-## Flow Chart
-<img width="868" alt="image" src="https://github.com/user-attachments/assets/d269687f-052e-4872-a15c-3240e73b5049" />
-
-
-
-
-## REFACTORING
-
-
-StreamAPI와 Lambda 표현식을 학습한 이후 활용한 코드 리팩토링
-
-```java
-//기존 EndView
-for (List<Object> row : results) {
-            for (Object value : row) {
-                System.out.print(value + "\t");
-            }
-            System.out.println();
-        }
-```
-
-
-```java
-//StreamAPI 사용한 Endview
-results.stream()
-	       .forEach(row -> {
-	           row.stream()
-	               .forEach(value -> System.out.print(value + "\t"));
-	           System.out.println();
-	       });
-```
-
-
-SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 쿼리 튜닝을 고려하고자 함.
 
 
 기존에 존재하던 코드에서 Controller 함수 내부에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 총 execution time 측정.
