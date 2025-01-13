@@ -84,7 +84,7 @@ public class CreateRepository {
 	            )         
 	            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)
 	            """;
-	    
+
 	    try (CSVReader reader = new CSVReader(new FileReader("data.csv"));
 	         Connection conn = DBUtil.getConnection();
 	         PreparedStatement pstmtNLS = conn.prepareStatement("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
@@ -98,6 +98,8 @@ public class CreateRepository {
 	        String[] values;
 	        int successCount = 0;
 	        int failureCount = 0;
+	        int batchSize = 5000;  // 배치 크기 설정
+	        int count = 0;
 
 	        // CSV 파일의 첫 번째 줄(헤더) 건너뛰기
 	        reader.readNext();  // 헤더 건너뛰기
@@ -134,7 +136,14 @@ public class CreateRepository {
 	                pstmtInsert.setString(20, values[19]); // 신고구분
 	                pstmtInsert.setString(21, values[20]); // 중개사시군구명
 
-	                pstmtInsert.executeUpdate();
+	                // 배치에 추가
+	                pstmtInsert.addBatch();
+
+	                if (++count % batchSize == 0) {
+	                    // 배치 실행
+	                    pstmtInsert.executeBatch();
+	                }
+	                
 	                successCount++;
 	            } catch (SQLException e) {
 	                System.err.println("오류 발생 데이터: " + String.join(",", values));
@@ -143,15 +152,19 @@ public class CreateRepository {
 	            }
 	        }
 
+	        // 남아있는 배치 처리
+	        pstmtInsert.executeBatch();
+
 	        conn.commit();
 	        System.out.printf("데이터 삽입 성공: %d 건, 실패: %d 건%n", successCount, failureCount);
+	        System.out.println("배치크기: 5000");
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        System.err.println("CSV 처리 중 오류 발생: " + e.getMessage());
 	        return false;
 	    }
-	    
+
 	    return true;
 	}
 
