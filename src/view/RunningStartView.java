@@ -220,6 +220,9 @@ public class RunningStartView {
 							System.out.println(
 									"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
 
+							
+						    scanner.nextLine(); // 버퍼에 남아있는 줄바꿈 문자 제거
+
 							while (!validInput) {
 							    System.out.print("검색할 특정 컬럼을 입력 (쉼표로 구분하여 입력): ");
 							    col = scanner.nextLine().trim(); // 공백 제거 및 전체 라인 입력받기
@@ -246,8 +249,9 @@ public class RunningStartView {
 
 							    if (isValid) {
 							        validInput = true; // 입력이 모두 유효한 경우
-							        
-							        readController.selectSpecificColumns(validColumnQuery.toString());
+							        System.out.println("내림차순 : 1 / 오름차순 : 그 외 입력");
+							        String order = scanner.nextLine();
+							        readController.orderByColumn(validColumnQuery.toString(), order);
 							    } else {
 							        System.out.println("유효하지 않은 입력이 포함되어 있습니다. 다시 입력해주세요.");
 							    }
