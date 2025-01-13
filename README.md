@@ -38,12 +38,14 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 
 - 인덱스 관련 테이블 설정
-MySQL의 특정 컬럼에 대한 auto increment 기능이 Oracle 12 버전에서부터 generated as identity 라는 명령어로 존재.
-하지만 현재 사용하고 있는 DB는 Oracle 11 버전이기 때문에 이를 사용할 수 없어 시퀀스를 생성하고 테이블에 Trigger를 작성해 수행함으로써 자동 인덱스 생성.
+MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전에서부터 generated as identity 라는 명령어로 존재.**
+하지만 현재 사용하고 있는 DB는 **Oracle 11** 버전이기 때문에 이를 사용할 수 없어 **시퀀스를 생성하고 테이블에 Trigger를 작성해 수행함**으로써 자동 인덱스 생성.
 
 
 - 테이블 전처리
 테이블 전처리의 초반 목표 : 테이블 생성 -> 데이터 삽입 -> 사용하지 않는 컬럼 드랍 -> null 값 존재하는 row 드랍
+
+
 시간 상의 이유로 구현된 전처리 : 테이블 생성 -> 데이터 삽입 -> 일부 컬럼 사용을 위한 DTO 생성
 
 
