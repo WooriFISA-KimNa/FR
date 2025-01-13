@@ -46,70 +46,63 @@ public class ReadRepository {
     }
 
 
-    public List<Estate> findAll() {
-        List<Estate> estates = new ArrayList<>();
-        String query = "SELECT * FROM Real_Estate_Data";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            // DBUtil을 통해 Connection 획득
-            conn = DBUtil.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-                Estate estate = new Estate(
-                        rs.getLong("eid"),
-                        rs.getLong("reception_year"),
-                        rs.getLong("district_code"),
-                        rs.getString("district_name"),
-                        rs.getLong("legal_dong_code"),
-                        rs.getString("legal_dong_name"),
-                        rs.getLong("lot_type"),
-                        rs.getString("lot_type"),
-                        rs.getLong("main_lot"),
-                        rs.getLong("sub_lot"),
-                        rs.getString("building_name"),
-                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
-                        rs.getLong("property_price"),
-                        rs.getLong("building_area"),
-                        rs.getLong("land_area"),
-                        rs.getLong("floor"),
-                        rs.getString("right_type"),
-                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
-                        rs.getLong("construction_year"),
-                        rs.getString("building_purpose"),
-                        rs.getString("report_type"),
-                        rs.getString("realtor_district_name")
-                );
-                estates.add(estate);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Database error occurred while fetching estates", e);
-        } finally {
-            // DBUtil을 사용해 자원 정리
-            DBUtil.close(conn, stmt, rs);
-        }
-        return estates;
-    }
+//    public List<Estate> findAll() {
+//        Connection conn = null;
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//        List<Estate> estates = new ArrayList<>();
+//        try {
+//            // DBUtil을 통해 Connection 획득
+//            conn = DBUtil.getConnection();
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery("SELECT * FROM Real_Estate_Data");
+//            while (rs.next()) {
+//                Estate estate = new Estate(
+//                        rs.getLong("eid"),
+//                        rs.getLong("reception_year"),
+//                        rs.getLong("district_code"),
+//                        rs.getString("district_name"),
+//                        rs.getLong("legal_dong_code"),
+//                        rs.getString("legal_dong_name"),
+//                        rs.getLong("lot_type"),
+//                        rs.getString("lot_type"),
+//                        rs.getLong("main_lot"),
+//                        rs.getLong("sub_lot"),
+//                        rs.getString("building_name"),
+//                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
+//                        rs.getLong("property_price"),
+//                        rs.getLong("building_area"),
+//                        rs.getLong("land_area"),
+//                        rs.getLong("floor"),
+//                        rs.getString("right_type"),
+//                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
+//                        rs.getLong("construction_year"),
+//                        rs.getString("building_purpose"),
+//                        rs.getString("report_type"),
+//                        rs.getString("realtor_district_name")
+//                );
+//                estates.add(estate);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Database error occurred while fetching estates", e);
+//        } finally {
+//            // DBUtil을 사용해 자원 정리
+//            DBUtil.close(conn, stmt, rs);
+//        }
+//        return estates;
+//    }
 
     public List<RealDTO> findAllDTO() {
-        List<RealDTO> estates = new ArrayList<>();
-        String query = "SELECT eid, district_name, legal_dong_name, main_lot, sub_lot, building_name, " +
-                "contract_date, property_price, building_area, floor, cancellation_date, " +
-                "building_purpose, report_type FROM real_estate_data";
-
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
+        List<RealDTO> estates = new ArrayList<>();
         try {
             conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(query);
+            pstmt = conn.prepareStatement("SELECT eid, district_name, legal_dong_name, main_lot, sub_lot, building_name, " +
+                    "contract_date, property_price, building_area, floor, cancellation_date, " +
+                    "building_purpose, report_type FROM real_estate_data WHERE ROWNUM <= 1000");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -141,83 +134,73 @@ public class ReadRepository {
     }
 
 
-    public List<Estate> findByProperty(String col, String property) {
-        List<Estate> estates = new ArrayList<>();
-        String query = "SELECT * FROM real_estate_data where " + col + " = '" + property + " and rownum <= 100'";
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            // DBUtil을 통해 Connection 획득
-            conn = DBUtil.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-                Estate estate = new Estate(
-                        rs.getLong("eid"),
-                        rs.getLong("reception_year"),
-                        rs.getLong("district_code"),
-                        rs.getString("district_name"),
-                        rs.getLong("legal_dong_code"),
-                        rs.getString("legal_dong_name"),
-                        rs.getLong("lot_type"),
-                        rs.getString("lot_type"),
-                        rs.getLong("main_lot"),
-                        rs.getLong("sub_lot"),
-                        rs.getString("building_name"),
-                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
-                        rs.getLong("property_price"),
-                        rs.getLong("building_area"),
-                        rs.getLong("land_area"),
-                        rs.getLong("floor"),
-                        rs.getString("right_type"),
-                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
-                        rs.getLong("construction_year"),
-                        rs.getString("building_purpose"),
-                        rs.getString("report_type"),
-                        rs.getString("realtor_district_name")
-                );
-                estates.add(estate);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Database error occurred while fetching estates", e);
-        } finally {
-            // DBUtil을 사용해 자원 정리
-            DBUtil.close(conn, stmt, rs);
-        }
-        return estates;
-    }
+//    public List<Estate> findByProperty(String col, String property) {
+//        List<Estate> estates = new ArrayList<>();
+//        String query = "SELECT * FROM real_estate_data where " + col + " = '" + property + " and rownum <= 100'";
+//        Connection conn = null;
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            // DBUtil을 통해 Connection 획득
+//            conn = DBUtil.getConnection();
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery(query);
+//
+//            while (rs.next()) {
+//                Estate estate = new Estate(
+//                        rs.getLong("eid"),
+//                        rs.getLong("reception_year"),
+//                        rs.getLong("district_code"),
+//                        rs.getString("district_name"),
+//                        rs.getLong("legal_dong_code"),
+//                        rs.getString("legal_dong_name"),
+//                        rs.getLong("lot_type"),
+//                        rs.getString("lot_type"),
+//                        rs.getLong("main_lot"),
+//                        rs.getLong("sub_lot"),
+//                        rs.getString("building_name"),
+//                        rs.getDate("contract_date") != null ? rs.getDate("contract_date").toLocalDate() : null,
+//                        rs.getLong("property_price"),
+//                        rs.getLong("building_area"),
+//                        rs.getLong("land_area"),
+//                        rs.getLong("floor"),
+//                        rs.getString("right_type"),
+//                        rs.getDate("cancellation_date") != null ? rs.getDate("cancellation_date").toLocalDate() : null,
+//                        rs.getLong("construction_year"),
+//                        rs.getString("building_purpose"),
+//                        rs.getString("report_type"),
+//                        rs.getString("realtor_district_name")
+//                );
+//                estates.add(estate);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Database error occurred while fetching estates", e);
+//        } finally {
+//            // DBUtil을 사용해 자원 정리
+//            DBUtil.close(conn, stmt, rs);
+//        }
+//        return estates;
+//    }
 
     public List<RealDTO> findByPropertyDTO(String col, String property) {
-        List<RealDTO> estates = new ArrayList<>();
-        String query = "SELECT * FROM real_estate_data WHERE " + col + " = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        long queryExecutionTime = 0;
-
-        Object parsedProperty = parseInput(col, property);
-
+        String query = "SELECT * FROM real_estate_data WHERE " + col + " = ?";
+        List<RealDTO> estates = new ArrayList<>();
 
         try {
             // DBUtil을 통해 Connection 획득
             conn = DBUtil.getConnection();
             pstmt = conn.prepareStatement(query);
 
-            if (parsedProperty instanceof String) {
-                pstmt.setString(1, (String) parsedProperty);
-            } else if (parsedProperty instanceof Long) {
-                pstmt.setLong(1, (Long) parsedProperty);
-            } else if (parsedProperty instanceof LocalDate) {
-                pstmt.setDate(1, java.sql.Date.valueOf((LocalDate) parsedProperty));
-            } else {
-                throw new IllegalArgumentException("Unsupported property type: " + property.getClass().getSimpleName());
-            }
-            rs = pstmt.executeQuery();
+            // parseInput으로 property 파싱 및 값 설정
+            Object parsedProperty = parseInput(col, property);
+            setPreparedStatementValue(pstmt, 1, parsedProperty); // 값을 설정하는 메서드 사용
 
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 RealDTO realDTO = new RealDTO(
@@ -247,8 +230,26 @@ public class ReadRepository {
         return estates;
     }
 
+    // PreparedStatement 값 설정을 처리하는 메서드
+    private void setPreparedStatementValue(PreparedStatement pstmt, int parameterIndex, Object value) throws SQLException {
+        if (value instanceof String) {
+            pstmt.setString(parameterIndex, (String) value);
+        } else if (value instanceof Long) {
+            pstmt.setLong(parameterIndex, (Long) value);
+        } else if (value instanceof LocalDate) {
+            pstmt.setDate(parameterIndex, java.sql.Date.valueOf((LocalDate) value));
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + value.getClass().getSimpleName());
+        }
+    }
+
+
     public List<RealDTO> orderByColumn(String col, String order) {
-        List<RealDTO> estates = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+    	List<RealDTO> estates = new ArrayList<>();
 
         List<String> validColumns = Arrays.asList("eid", "district_name", "contract_date", "property_price");
 
@@ -260,9 +261,6 @@ public class ReadRepository {
         String sortOrder = (order.equals("1") ? "DESC" : "ASC");
         String query = "SELECT * FROM real_estate_data ORDER BY " + col + " " + sortOrder;
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
 
         try {
             // DBUtil을 통해 Connection 획득
@@ -399,6 +397,14 @@ public class ReadRepository {
         return results;
     }
 
+    public List<RealDTO> selectLocationRank(){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<RealDTO> results = null;
+    	
+    	return results;
+    }
 
 
 }
