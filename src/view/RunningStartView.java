@@ -221,31 +221,38 @@ public class RunningStartView {
 									"권리구분: right_type | 취소일: cancellation_date | 건축년도: construction_year | 건물용도: building_purpose | 신고구분: report_type | 중개사시군구명: realtor_district_name");
 
 							while (!validInput) {
-								System.out.print("검색할 특정 컬럼을 입력: ");
-								col = scanner.next();
+							    System.out.print("검색할 특정 컬럼을 입력 (쉼표로 구분하여 입력): ");
+							    col = scanner.nextLine().trim(); // 공백 제거 및 전체 라인 입력받기
 
-								String[] columns = col.split(",");
-								StringBuilder validColumnQuery = new StringBuilder();
+							    String[] columns = col.split(","); // 쉼표로 컬럼 구분
+							    StringBuilder validColumnQuery = new StringBuilder();
+							    boolean isValid = true; // 입력 전체의 유효성을 체크하기 위한 변수
 
-								for (String column : columns) {
-									column = column.trim(); // 공백 제거
-									if (validColumnsList.contains(column)) {
-										if (validColumnQuery.length() > 0) {
-											validColumnQuery.append(", ");
-										}
-										validColumnQuery.append(column);
-									} else {
-										validInput = true;
-										System.out.println("유효하지 않은 컬럼명: " + column);
-										break;
-									}
-								}
+							    for (String column : columns) {
+							        column = column.trim(); // 각 컬럼의 공백 제거
+							        if (validColumnsList.contains(column)) {
+							            // 유효한 컬럼인 경우
+							            if (validColumnQuery.length() > 0) {
+							                validColumnQuery.append(", ");
+							            }
+							            validColumnQuery.append(column);
+							        } else {
+							            // 유효하지 않은 컬럼인 경우
+							            System.out.println("유효하지 않은 컬럼명: " + column);
+							            isValid = false;
+							            break; // 루프 종료
+							        }
+							    }
 
-								if (!validInput) {
-									System.out.println("유효하지 않은 컬럼입니다. 다시 입력해주세요.");
-								}
-								readController.selectSpecificColumns(validColumnQuery.toString());
+							    if (isValid) {
+							        validInput = true; // 입력이 모두 유효한 경우
+							        
+							        readController.selectSpecificColumns(validColumnQuery.toString());
+							    } else {
+							        System.out.println("유효하지 않은 입력이 포함되어 있습니다. 다시 입력해주세요.");
+							    }
 							}
+
 							break;
 						case 4:
 							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");

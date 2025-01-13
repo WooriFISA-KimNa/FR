@@ -60,5 +60,9 @@ public class ReadController {
         EndView.displayObject(results);
         
     }
+    
+    public void selectLocationRank() {
+    	List<RealDTO> estates = readRepository
+    }
 
 }
