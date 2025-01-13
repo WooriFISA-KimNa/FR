@@ -1,10 +1,10 @@
-# 🏘️ FR
+# 🏘️ FR : For Real For Real Estate
 Real Estate Real transaction data
 
 ## 목차 
 - [Contributors](#contributors)
-- [사용 기술](#사용-기술)
-- [실행 환경](#실행-환경)
+- [개발 환경](#개발-환경)
+- [아키텍처 구조](#아키텍처-구조)
 - [프로젝트 소개](#프로젝트-소개)
 - [Flow Chart](#flow-chart)
 - [주요 코드](#주요-코드)
@@ -12,6 +12,7 @@ Real Estate Real transaction data
 - [실행 화면](#실행-화면)
 - [쿼리 실행 시간 비교](#쿼리-실행-시간-비교)
 - [추가 개선 사항](#추가-개선-사항)
+- [Trouble Shooting](#Trouble-Shooting)
 
 ---
 
@@ -21,11 +22,7 @@ Real Estate Real transaction data
 |:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|
 | [김창규](https://github.com/kcklkb)                         | [김창성](https://github.com/kcs19)                      | [나원호](https://github.com/CooolRyan)                         | [나홍찬](https://github.com/HongChan1412)                         |
 
-## 사용 기술
-<img src="https://img.icons8.com/?size=100&id=39913&format=png&color=000000/Oracle?style=for-the-badge&logo=Oracle&logoColor=white"><img src="https://img.icons8.com/?size=100&id=13679&format=png&color=000000/Java?style=for-the-badge&logo=Java&logoColor=white">
-
-
-## 실행 환경
+## 개발 환경
 - Java 17
 - Oracle 11 EE
 - Ubuntu 24.04.1
@@ -95,9 +92,9 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 ## 쿼리 실행 시간 비교
 
 
-
 ## 추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 
+## Trouble Shooting
 
 
