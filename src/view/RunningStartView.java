@@ -155,13 +155,7 @@ public class RunningStartView {
 							newProperty.setEid(null);
 
 							// 데이터 삽입
-							boolean result = CreateController.insertSingleData(newProperty);
-							if (result) {
-								System.out.println("데이터가 성공적으로 추가되었습니다.");
-							}else{
-								System.out.println("데이터 삽입에 실패했습니다.");
-							}
-
+							CreateController.insertSingleData(newProperty);
 						} else {
 							System.out.println("추가 작업이 취소되었습니다.");
 						}
