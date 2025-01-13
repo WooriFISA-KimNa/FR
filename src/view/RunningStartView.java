@@ -43,7 +43,11 @@ public class RunningStartView {
 		CreateController.createTrigger();
 
 		System.out.println("***** 테이블에 데이터 생성 *****");
+		long startTime = System.nanoTime();
 		CreateController.insertData();
+		long endTime = System.nanoTime(); // 실행 시간 측정 종료
+        // 실행 시간 출력
+        System.out.println("Query executed in " + ((endTime - startTime) / 1_000_000) + " milliseconds");
 		
 
 
