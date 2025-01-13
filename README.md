@@ -119,4 +119,38 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 
 ## Trouble Shooting
 
+### **CSV 데이터 파싱 오류 해결**
 
+- 데이터베이스에 CSV 파일을 삽입하는 과정에서, 콤마로 구분된 데이터를 처리하기 위해 `split` 메서드를 사용하여 CSV 데이터를 파싱. 하지만, 일부 데이터 내에 콤마가 포함된 경우, 예상치 못한 컬럼 구분이 발생하여 데이터 파싱에 오류 발생.
+
+#### 문제 설명
+> 아래 사진과 같이 데이터 안에 콤마가 포함된 경우, 기본적인 `split` 방식으로 파싱을 진행하면 해당 데이터를 잘못 분리하여, 다른 컬럼으로 이동하는 문제가 발생.
+
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/75f28eac-7a30-4989-a8d6-efea177a10c7" width="48%" style="margin-right: 4%;" />
+  <img src="https://github.com/user-attachments/assets/cf05b858-bb10-495c-87c8-0ed4ec9802d1" width="48%" />
+</div>
+
+#### 해결 방안
+- 이 문제를 해결하기 위해, Maven repository에서 제공하는 `opencsv` 라이브러리를 활용.
+- 특히, `opencsv`는 텍스트 내에서 `"` (큰따옴표)로 감싸진 데이터가 콤마를 포함하더라도 이를 하나의 값으로 인식하여 정확하게 파싱가능.
+- 또한, `opencsv`를 사용함으로써 CSV 파일을 처리하는 속도가 눈에 띄게 개선.
+
+#### 결과
+- `opencsv` 적용 후, CSV 데이터의 파싱 정확도 향상, 대량의 데이터도 빠르게 처리가능해, 데이터 입력 시간 단축.
+---
+### **NLS_DATE_FORMAT 오류 해결**
+
+- Oracle 데이터베이스에 `date` 형식의 데이터를 입력하는 과정에서 예상치 못한 날짜 형식이 입력되는 문제가 발생.
+
+#### 문제 설명
+> 아래 사진과 같이 `2024-12-31`이라는 날짜를 입력했을 때, 데이터베이스에 `2024-12-31 00:00:00.000`이 아닌 `0024-12-31 00:00:00.000` 형식으로 잘못 저장되는 현상이 발생.
+> 
+![image](https://github.com/user-attachments/assets/52023565-0b0e-4287-a8b4-7c6f58cf9eeb)
+
+#### 해결 방안
+- 이 문제를 해결하기 위해, **JDBC**를 사용하여 데이터 입력 전 Oracle 데이터베이스의 세션에 대해 `NLS_DATE_FORMAT`을 명시적으로 설정.
+- `ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'` 명령어를 사용하여 날짜 포맷을 `YYYY-MM-DD`로 설정한 후, 데이터를 입력하면 날짜가 올바르게 `2024-12-31` 형식으로 입력되도록 함.
+
+#### 결과
+`ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'` 명령어를 사용하여 세션의 날짜 포맷을 정확하게 설정한 결과, 데이터베이스에 날짜가 올바르게 입력되었고, 날짜 형식에 의한 오류를 해결
