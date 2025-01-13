@@ -1,16 +1,13 @@
 package repository;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+
+import com.opencsv.CSVReader;
 
 import dto.RealDTO;
 import util.CSVUtil;
@@ -79,96 +76,83 @@ public class CreateRepository {
 	}
 
 	public static boolean insertData() throws SQLException {
-		String csvFilePath = "data.csv";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int result = 0;
+	    String insertQuery = """
+	            INSERT INTO REAL_ESTATE_DATA (
+	                reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type,
+	                lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area,
+	                land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name
+	            )         
+	            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)
+	            """;
+	    
+	    try (CSVReader reader = new CSVReader(new FileReader("data.csv"));
+	         Connection conn = DBUtil.getConnection();
+	         PreparedStatement pstmtNLS = conn.prepareStatement("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
+	         PreparedStatement pstmtInsert = conn.prepareStatement(insertQuery)) {
 
-		String insertQuery = """
-				INSERT INTO REAL_ESTATE_DATA (
-					reception_year, district_code, district_name, legal_dong_code, legal_dong_name, lot_type,
-				    lot_type_name, main_lot, sub_lot, building_name, contract_date, property_price, building_area,
-				    land_area, floor, right_type, cancellation_date, construction_year, building_purpose, report_type, realtor_district_name
-                ) 		
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)
-				""";
-                		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
-			conn = DBUtil.getConnection();
-			pstmt = conn.prepareStatement("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
-			pstmt.executeUpdate();
-			pstmt = conn.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+	        // NLS_DATE_FORMAT 설정
+	        pstmtNLS.executeUpdate();
 
-			conn.setAutoCommit(false);  // 트랜잭션 시작
-			
-		    String line;
-		    int batchSize = 500;  // 배치 크기 줄임
-		    int count = 0;
-		    
-		    // CSV 파일의 첫 번째 줄(헤더) 건너뛰기
-		    br.readLine();
-		    
-		    while ((line = br.readLine()) != null) {
-		        String[] values = Stream.of(line.split(","))
-		                .map(value -> value.replace("\"", "").trim()) // " 제거 및 공백 제거
-		                .toArray(String[]::new);
+	        conn.setAutoCommit(false);  // 트랜잭션 시작
 
-		        // PreparedStatement 바인딩
-		        try {
-		        	pstmt.setInt(1, CSVUtil.parseInteger(values[0])); // 접수연도
-		        	pstmt.setInt(2, CSVUtil.parseInteger(values[1])); // 자치구코드
-		        	pstmt.setString(3, values[2]); // 자치구명
-		        	pstmt.setInt(4, CSVUtil.parseInteger(values[3])); // 법정동코드
-		        	pstmt.setString(5, values[4]); // 법정동명
-		        	pstmt.setInt(6, CSVUtil.parseInteger(values[5])); // 지번구분
-		        	pstmt.setString(7, values[6]); // 지번구분명
-		        	pstmt.setInt(8, CSVUtil.parseInteger(values[7])); // 본번
-		        	pstmt.setInt(9, CSVUtil.parseInteger(values[8])); // 부번
-		        	pstmt.setString(10, values[9]); // 건물명
-		        	pstmt.setDate(11, CSVUtil.convertToSqlDate(values[10])); // 계약일
-		        	pstmt.setInt(12, CSVUtil.parseInteger(values[11])); // 물건금액
-		        	pstmt.setDouble(13, CSVUtil.parseDouble(values[12])); // 건물면적
-		        	pstmt.setDouble(14, CSVUtil.parseDouble(values[13])); // 토지면적
-		        	pstmt.setInt(15, CSVUtil.parseInteger(values[14])); // 층
-		        	pstmt.setString(16, values[15]); // 권리구분
-		        	
-		        	pstmt.setDate(17, CSVUtil.convertToSqlDate(values[16]));
-		            int constructionYear = CSVUtil.parseInteger(values[17]);
-		            if (constructionYear <= 0 || constructionYear > 9999) {
-		            	pstmt.setNull(18, java.sql.Types.INTEGER);
-		            } else {
-		            	pstmt.setInt(18, constructionYear);
-		            }
+	        String[] values;
+	        int successCount = 0;
+	        int failureCount = 0;
 
-		            pstmt.setString(19, values[18]); // 건물용도
-		            pstmt.setString(20, values[19]); // 신고구분
-		            pstmt.setString(21, values[20]); // 중개사시군구명
+	        // CSV 파일의 첫 번째 줄(헤더) 건너뛰기
+	        reader.readNext();  // 헤더 건너뛰기
 
-		            pstmt.addBatch();
+	        while ((values = reader.readNext()) != null) {
+	            try {
+	                // PreparedStatement에 데이터 바인딩
+	                pstmtInsert.setInt(1, CSVUtil.parseInteger(values[0])); // 접수연도
+	                pstmtInsert.setInt(2, CSVUtil.parseInteger(values[1])); // 자치구코드
+	                pstmtInsert.setString(3, values[2]); // 자치구명
+	                pstmtInsert.setInt(4, CSVUtil.parseInteger(values[3])); // 법정동코드
+	                pstmtInsert.setString(5, values[4]); // 법정동명
+	                pstmtInsert.setInt(6, CSVUtil.parseInteger(values[5])); // 지번구분
+	                pstmtInsert.setString(7, values[6]); // 지번구분명
+	                pstmtInsert.setInt(8, CSVUtil.parseInteger(values[7])); // 본번
+	                pstmtInsert.setInt(9, CSVUtil.parseInteger(values[8])); // 부번
+	                pstmtInsert.setString(10, values[9]); // 건물명
+	                pstmtInsert.setDate(11, CSVUtil.convertToSqlDate(values[10])); // 계약일
+	                pstmtInsert.setInt(12, CSVUtil.parseInteger(values[11])); // 물건금액
+	                pstmtInsert.setDouble(13, CSVUtil.parseDouble(values[12])); // 건물면적
+	                pstmtInsert.setDouble(14, CSVUtil.parseDouble(values[13])); // 토지면적
+	                pstmtInsert.setInt(15, CSVUtil.parseInteger(values[14])); // 층
+	                pstmtInsert.setString(16, values[15]); // 권리구분
+	                pstmtInsert.setDate(17, CSVUtil.convertToSqlDate(values[16])); // 취소일
 
-		            if (++count % batchSize == 0) {
-		            	pstmt.executeBatch();
-		            }
-		            
-		        } catch (SQLException e) {
-		            System.err.println("오류 발생 데이터: " + String.join(",", values));
-		            e.printStackTrace();
-		        }
-		    }
-		    pstmt.executeBatch();
-		    conn.commit();
+	                int constructionYear = CSVUtil.parseInteger(values[17]);
+	                if (constructionYear <= 0 || constructionYear > 9999) {
+	                    pstmtInsert.setNull(18, java.sql.Types.INTEGER);
+	                } else {
+	                    pstmtInsert.setInt(18, constructionYear);
+	                }
 
-		    System.out.println("데이터 삽입 성공!");
-		} catch (IOException e) {
-			System.err.println("CSV 파일을 읽는 중 오류 발생: " + e.getMessage());
-		} finally {
-			DBUtil.close(conn, pstmt);
-		}
-		if (result == 1) {
-			return true;
-		}
-		return false;
+	                pstmtInsert.setString(19, values[18]); // 건물용도
+	                pstmtInsert.setString(20, values[19]); // 신고구분
+	                pstmtInsert.setString(21, values[20]); // 중개사시군구명
+
+	                pstmtInsert.executeUpdate();
+	                successCount++;
+	            } catch (SQLException e) {
+	                System.err.println("오류 발생 데이터: " + String.join(",", values));
+	                e.printStackTrace();
+	                failureCount++;
+	            }
+	        }
+
+	        conn.commit();
+	        System.out.printf("데이터 삽입 성공: %d 건, 실패: %d 건%n", successCount, failureCount);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.err.println("CSV 처리 중 오류 발생: " + e.getMessage());
+	        return false;
+	    }
+	    
+	    return true;
 	}
 
 	public static boolean createSequence () throws SQLException {
