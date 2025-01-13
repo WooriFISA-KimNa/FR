@@ -83,10 +83,10 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 테이블 전처리의 초반 목표 : 테이블 생성 -> 데이터 삽입 -> 사용하지 않는 컬럼 드랍 -> null 값 존재하는 row 드랍
 
 
-시간 상의 이유로 구현된 전처리 : 테이블 생성 -> 데이터 삽입 -> 일부 컬럼 사용을 위한 DTO 생성
+- 시간 상의 이유로 구현된 전처리 : 테이블 생성 -> 데이터 삽입 -> 일부 컬럼 사용을 위한 DTO 생성
 
 
-실제 프로그램에서만 사용하는 컬럼들만 사용할 수 있도록 RealDTO 객체를 통해 데이터를 주고 받으며 프로그램이 동작할 수 있도록 코드 작성.
+- 실제 프로그램에서만 사용하는 컬럼들만 사용할 수 있도록 RealDTO 객체를 통해 데이터를 주고 받으며 프로그램이 동작할 수 있도록 코드 작성.
 
 
 
@@ -216,10 +216,14 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 
 
 ![image](https://github.com/user-attachments/assets/c518e09e-b2ae-4369-a210-5e2a2cfabe2a)
+
+
 초기 데이터 Insertion 시간의 경우 평균 25s 소요
 
 
 이후 트러블 슈팅을 해결하는 과정에서 OpenCSV를 사용하게 되고, Batch 작업 없이 Insertion 진행 시 excute time이 눈에 띄게 증가한 것을 확인.
+
+
 ![image](https://github.com/user-attachments/assets/f5f64d82-4433-456d-a25b-4552082950c0)
 
 
