@@ -1,6 +1,20 @@
 # FR
 Real Estate Real transaction data
 
+## 목차
+- [Contributors](#contributors)
+- [사용 기술](#사용-기술)
+- [실행 환경](#실행-환경)
+- [프로젝트 소개](#프로젝트-소개)
+- [Flow Chart](#flow-chart)
+- [주요 코드](#주요-코드)
+- [REFACTORING](#refactoring)
+- [실행 화면](#실행-화면)
+- [쿼리 실행 시간 비교](#쿼리-실행-시간-비교)
+- [추가 개선 사항](#추가-개선-사항)
+
+---
+
 ## Contributors
 
 | ![김창규](https://avatars.githubusercontent.com/u/40711682?v=4) | ![김창성](https://avatars.githubusercontent.com/u/103468518?v=4) | ![나원호](https://avatars.githubusercontent.com/u/74342019?v=4) | ![나홍찬](https://avatars.githubusercontent.com/u/95984922?v=4) |
@@ -10,7 +24,7 @@ Real Estate Real transaction data
 ## 사용 기술
 <img src="https://img.icons8.com/?size=100&id=39913&format=png&color=000000/Oracle?style=for-the-badge&logo=Oracle&logoColor=white"><img src="https://img.icons8.com/?size=100&id=13679&format=png&color=000000/Java?style=for-the-badge&logo=Java&logoColor=white">
 
-## 실행환경
+## 실행 환경
 - Java 17
 - Oracle 11 EE
 - Ubuntu 24.04.1
