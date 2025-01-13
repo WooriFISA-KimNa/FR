@@ -29,7 +29,7 @@ public class RunningStartView {
 				"property_price", "building_area", "land_area", "floor", "right_type", "cancellation_date",
 				"construction_year", "building_purpose", "report_type", "realtor_district_name" };
 		String col = "", property = "", mainLot = "", subLot = "", option = "";
-		int choice; // 사용자가 선택할 메뉴 번호
+		String choice; // 사용자가 선택할 메뉴 번호
 		List<String> validColumnsList = Arrays.asList("eid", "district_name", "legal_dong_name", "main_lot", "sub_lot", "building_name", "contract_date", "property_price");
 
 		
@@ -65,11 +65,11 @@ public class RunningStartView {
 				System.out.println("1. 추가  |  2. 조회  |  3. 수정  |  4. 삭제  |  5.종료");
 				System.out.print("실행할 옵션을 입력: ");
 
-				choice = scanner.nextInt();
+				choice = scanner.next();
 				boolean validInput = false;
 
 				switch (choice) {
-					case 1:
+					case "1":
 						// 추가
 						System.out.println("========================= 추가 메뉴 =========================");
 						System.out.println("다음 데이터를 입력하세요:");
@@ -163,18 +163,18 @@ public class RunningStartView {
 						}
 						break;
 
-					case 2:
+					case "2":
 					// 검색
 					System.out.println("========================= 조회 메뉴 =========================");
 					System.out.println("실행할 옵션을 입력해주세요");
 					System.out.println("1. 모든 데이터 조회  |  2. 정확한 데이터 조회  |  3. 특정 컬럼에 기준으로 정렬해 데이터 조회 | 4. 특정 컬럼만 조회 | 5. 데이터 검색 조회");
 					System.out.print("실행할 옵션을 입력: ");
-					choice = scanner.nextInt();
+					choice = scanner.next();
 					switch (choice) {
-						case 1:
+						case "1":
 							readController.readAllDTO();
 							break;
-						case 2: {
+						case "2": {
 							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
 							System.out.println(
 									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
@@ -205,7 +205,7 @@ public class RunningStartView {
 							readController.findByPropertyDTO(col, prop);
 							break;
 						}
-						case 3:
+						case "3":
 							System.out.println("검색할 특정 컬럼을 입력해주세요 (reception_year, district_code, district_name)");
 							System.out.println(
 									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
@@ -243,7 +243,7 @@ public class RunningStartView {
 								readController.selectSpecificColumns(validColumnQuery.toString());
 							}
 							break;
-						case 4:
+						case "4":
 							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
 							System.out.println(
 									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
@@ -284,7 +284,7 @@ public class RunningStartView {
 							// 특정 컬럼으로 조회
 							readController.selectSpecificColumns(validColumnQuery.toString());
 							break;
-						case 5:
+						case "5":
 							System.out.println("검색할 특정 컬럼을 입력해주세요 (접수연도 검색-> reception_year 입력)");
 							System.out.println(
 									"접수연도: reception_year | 자치구코드: district_code | 자치구명: district_name | 법정동코드: legal_dong_code | 법정동명: legal_dong_name");
@@ -317,7 +317,7 @@ public class RunningStartView {
 					}
 
 					break;
-				case 3:
+				case "3":
 					// 수정
 					System.out.println("========================= 수정 =========================");
 					System.out.println("수정할 특정 컬럼을 입력해주세요 (자치구명 검색 후 수정-> district_name 입력)");
@@ -333,7 +333,7 @@ public class RunningStartView {
 					property = scanner.next();
 					updateController.update(col, property);
 					break;
-				case 4:
+				case "4":
 					// 삭제
 					System.out.println("========================= 삭제 =========================");
 					System.out.print("삭제할 본번 입력해주세요: ");
@@ -353,7 +353,7 @@ public class RunningStartView {
 						System.out.println("삭제 실패");
 					}
 					break;
-				case 5:
+				case "5":
 					// 종료
 					System.out.println("========================= 종료 =========================");
 					System.out.println("프로그램을 종료합니다.");
