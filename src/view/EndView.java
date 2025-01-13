@@ -86,8 +86,30 @@ public class EndView {
 		System.out.println(sb.toString());
 	}
 
+	public static void displayObject(List<List<Object>> results) {
+		// 결과 출력
+		/*
+        for (List<Object> row : results) {
+            for (Object value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
+        }
+        */
+		//Refactor Using StreamAPI
+		results.stream()
+	       .forEach(row -> {
+	           row.stream()
+	               .forEach(value -> System.out.print(value + "\t"));
+	           System.out.println();
+	       });
+		
+	}
+	
 	// 예외 상황 출력
 	public static void showError(String message) {
 		System.out.println(message);
 	}
+	
+	
 }
