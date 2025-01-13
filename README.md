@@ -72,6 +72,7 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 </table>
 
 
+## 프로젝트 기능
 
 - 인덱스 관련 테이블 설정
 MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전에서부터 generated as identity 라는 명령어로 존재.**
