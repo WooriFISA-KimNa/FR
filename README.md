@@ -82,6 +82,26 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 
 
 ## REFACTORING
+```java
+//기존 EndView
+for (List<Object> row : results) {
+            for (Object value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
+        }
+```
+
+
+```java
+//StreamAPI 사용한 Endview
+results.stream()
+	       .forEach(row -> {
+	           row.stream()
+	               .forEach(value -> System.out.print(value + "\t"));
+	           System.out.println();
+	       });
+```
 SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 효율적인 코드 작성 고려하고자 함.
 기존에 존재하던 코드에서 Controller 내부 함수에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 시간 측정으로 비정확한 시간 측정.
 Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 측정 진행
