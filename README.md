@@ -3,7 +3,8 @@ Real Estate Real transaction data
 
 
 ## 프로젝트 소개
-[공공데이터포털](https://www.data.go.kr/)에 존재하는 부동산 실거래 데이터 csv파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
+CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이터를 사용하고자 하는 목표에서 착안해 [공공데이터포털](https://www.data.go.kr/)에 존재하는 부동산 실거래 데이터를 주제로 선정.
+csv파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
 Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작
 
 
@@ -146,9 +147,6 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 
 
 
-## 쿼리 실행 시간 비교
-
-
 ## 추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 
@@ -211,6 +209,35 @@ Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 �
 #### 결과
 - 사용자 입력 부담을 줄이고 수정 작업이 간편해짐
 
+## 쿼리 실행 시간 비교
+#### Data Insertion
+프로그램 실행 시 초기화 과정에서 Table 존재시 Drop 후 시퀀스와 트리거 생성 후 새로 Insert 하는 방식을 사용.
+
+
+![image](https://github.com/user-attachments/assets/c518e09e-b2ae-4369-a210-5e2a2cfabe2a)
+초기 데이터 Insertion 시간의 경우 평균 25s 소요
+
+
+이후 트러블 슈팅을 해결하는 과정에서 OpenCSV를 사용하게 되고, Batch 작업 없이 Insertion 진행 시 excute time이 눈에 띄게 증가한 것을 확인.
+![image](https://github.com/user-attachments/assets/f5f64d82-4433-456d-a25b-4552082950c0)
+
+
+이를 해결하기 위해 Batch 작업 및 사이즈 조절을 통한 excute time 최적화 진행.
+
+
+![image](https://github.com/user-attachments/assets/2024b7ad-2144-492e-8fe0-c50a06c39246)
+![image](https://github.com/user-attachments/assets/9312bcea-7b92-4695-8bb1-91da3499a6f4)
+![image](https://github.com/user-attachments/assets/9bb7bce6-0197-4073-b5f5-cdc358ac2f4e)
+![image](https://github.com/user-attachments/assets/438836aa-b200-4875-9edb-249c506c0997)
+![image](https://github.com/user-attachments/assets/5aa06f46-b333-466d-871f-c1f0682f046f)
+
+
+이전 코드의 Batch size 500과 비교해 OpenCSV 사용 시 동일 과정에서 직접 파싱을 진행하던 이전 과정에 비해 절반 가량의 시간만 소요. 
+
+
+이후 Batch size를 5000으로 설정하며 평균 6~7s로 시간을 줄일 수 있었음.
+
+
 
 ## 프로젝트 고찰 및 회고
  - 배운 점
@@ -226,3 +253,6 @@ MVC 패턴을 적용하여 Java JDBC와 Oracle DB를 활용해 CRUD기능을 구
 
 
 데이터 전처리 과정에서 사용빈도가 낮고 null값이 많은 row들을 sql로 처리하려 했으나, 데이터가 대용량으로 시간상 CSV 파일에서 임의로 처리했는데, 이 부분이 아쉬웠으며, 추후 고도화할 여지가 있음을 느꼈습니다.
+
+
+잦은 commit과 동기화의 진행으로 conflict 방지를 최소화 하고자 했습니다. Conflict 최소화를 위한 역할 분배에 대해 다시 고려해보고 싶었습니다.
