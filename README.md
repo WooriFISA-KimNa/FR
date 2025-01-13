@@ -1,11 +1,35 @@
-# FR
+# 🏘️ FR : For Real For Real Estate
 Real Estate Real transaction data
 
+## 목차 
+- [Contributors](#contributors)
+- [개발 환경](#개발-환경)
+- [아키텍처 구조](#아키텍처-구조)
+- [프로젝트 소개](#프로젝트-소개)
+- [Flow Chart](#flow-chart)
+- [주요 코드](#주요-코드)
+- [REFACTORING](#refactoring)
+- [실행 화면](#실행-화면)
+- [쿼리 실행 시간 비교](#쿼리-실행-시간-비교)
+- [추가 개선 사항](#추가-개선-사항)
+- [Trouble Shooting](#Trouble-Shooting)
+
+---
+
+## Contributors
+
+| ![김창규](https://avatars.githubusercontent.com/u/40711682?v=4) | ![김창성](https://avatars.githubusercontent.com/u/103468518?v=4) | ![나원호](https://avatars.githubusercontent.com/u/74342019?v=4) | ![나홍찬](https://avatars.githubusercontent.com/u/95984922?v=4) |
+|:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|
+| [김창규](https://github.com/kcklkb)                         | [김창성](https://github.com/kcs19)                      | [나원호](https://github.com/CooolRyan)                         | [나홍찬](https://github.com/HongChan1412)                         |
+
+## 개발 환경
+- Java 17
+- Oracle 11 EE
+- Ubuntu 24.04.1
 
 
-## 사용 기술
-<img src="https://img.icons8.com/?size=100&id=39913&format=png&color=000000/Oracle?style=for-the-badge&logo=Oracle&logoColor=white"><img src="https://img.icons8.com/?size=100&id=13679&format=png&color=000000/Java?style=for-the-badge&logo=Java&logoColor=white">
-
+## 아키텍처 구조
+![image](https://github.com/user-attachments/assets/1c4ce90d-af91-47fb-8d48-b45b45939873)
 
 
 ## 프로젝트 소개
@@ -40,30 +64,37 @@ MySQL의 특정 컬럼에 대한 auto increment 기능이 Oracle 12 버전에서
 
 
 3. 수정
-  -
+  - 수정할 컬럼 조회후 조건 입력 후 수정
 
 
 4. 삭제
-  -
+  - 본번, 부번에 해당하는 데이터 삭제
 
 ## Flow Chart
+<img width="868" alt="image" src="https://github.com/user-attachments/assets/d269687f-052e-4872-a15c-3240e73b5049" />
+
+
 
 
 ## 주요 코드
 
 
 ## REFACTORING
-SpringBoot에 존재하는 AOP의 개념을 일반 자바 프로그램에도 적용시키고자 노력, 이를 통해 쿼리 동작 시간 확인 및 효율적인 코드 작성 고려 가능
+SpringBoot에 존재하는 AOP의 개념에서 착안해 Read 로직 관련 쿼리 동작 시간 확인 및 효율적인 코드 작성 고려하고자 함.
 기존에 존재하던 코드에서 Controller 내부 함수에서 start_time 측정 시작, Repository 실행 완료 후 end_time 측정으로 시간 측정으로 비정확한 시간 측정.
 Lambda 표현식을 통한 Repository 내 try문 내에서 쿼리 실행시간 측정 진행
+
+## 실행 화면
+<img width="834" alt="image" src="https://github.com/user-attachments/assets/c1222ac9-48b3-4fba-8944-6231cbc76530" />
+
 
 
 ## 쿼리 실행 시간 비교
 
 
-
 ## 추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 
+## Trouble Shooting
 
 
