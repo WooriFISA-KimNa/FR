@@ -18,10 +18,10 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 - [Flow Chart](#flow-chart)
 - [REFACTORING](#refactoring)
 - [실행 화면](#실행-화면)
+- [Trouble Shooting](#Trouble-Shooting)
 - [쿼리 실행 시간 비교](#쿼리-실행-시간-비교)
 - [추가 개선 사항](#추가-개선-사항)
-- [Trouble Shooting](#Trouble-Shooting)
-
+- [프로젝트 고찰 및 회고](#프로젝트-고찰-및-회고)
 ---
 
 ## Contributors
@@ -224,10 +224,6 @@ ReadController readController = new ReadController(proxyService);
 ![image](https://github.com/user-attachments/assets/bfa2905c-220b-4b10-b06a-ccf87e6dd329)
 
 
-## 추가 개선 사항
-- 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
-- 완벽한 데이터 전처리를 위한 개선
-
 ## Trouble Shooting
 
 ### **CSV 데이터 파싱 오류 해결**
@@ -319,7 +315,9 @@ ReadController readController = new ReadController(proxyService);
 
 이후 Batch size를 5000으로 설정하며 평균 7~8s로 시간을 줄일 수 있었음.
 
-
+## 추가 개선 사항
+- 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
+- 완벽한 데이터 전처리를 위한 개선
 
 ## 프로젝트 고찰 및 회고
 나홍찬 : jdbc로 DB의 table, sequence, trigger와 입출력을 구현해보면서 Java의 기본문법과 DTO, DAO, MVC 패턴을 이해할 수 있었던 프로젝트였습니다.
