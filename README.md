@@ -1,4 +1,4 @@
-# 🏘️ FR : For Real Data For Real Estate
+![image](https://github.com/user-attachments/assets/3646efe9-c8e8-4afe-9f6a-d7c8c51dc571)# 🏘️ FR : For Real Data For Real Estate
 Real Estate Real transaction data
 
 <br>
@@ -44,7 +44,7 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 | eid  | reception_year | district_code | district_name | legal_dong_code | legal_dong_name | lot_type | lot_type_name | main_lot | sub_lot | building_name | contract_date | property_price | building_area | land_area | floor | right_type | cancellation_date | construction_year | building_purpose | report_type | realtor_district_name |
 | ---- | -------------- | ------------- | ------------- | --------------- | --------------- | -------- | ------------- | -------- | ------- | ------------- | ------------- | -------------- | -------------- | --------- | ----- | ---------- | ------------------ | ------------------ | ----------------- | ----------- | ---------------------- |
-| 1 | 2024           | 11230         | 동대문구      | 10400           | 전농동          | 1        | 대지          | 103      | 50      | (103-50)      | 2024-12-31    | 24000          | 44.04          | 20        | -1    |             |                    | 1991               | 연립다세대         | 중개거래     | 서울 동대문구            |
+| 1 | 2024           | 11230         | 동대문구      | 10400           | 전농동          | 1        | 대지          | 103      | 50      | (103-50)      | 2023-12-31    | 24000          | 44.04          | 20        | -1    |    입주권      |        2024-12-31    | 1991               | 연립다세대         | 중개거래     | 서울 동대문구            |
 
 
 <br>
