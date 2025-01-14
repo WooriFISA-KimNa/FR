@@ -3,7 +3,7 @@ Real Estate Real transaction data
 
 <br>
 
-## 프로젝트 소개
+## 📖프로젝트 소개
 CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이터를 사용하고자 하는 목표에서 착안해 [공공데이터포털](https://www.data.go.kr/)에 존재하는 서울특별시 부동산 실거래 데이터를 주제로 선정.
 전체 데이터는 너무 많은 관계로 2024년 거래 데이터 약 10만건만을 추출해서 사용.
 CSV 파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
@@ -11,7 +11,7 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 <br>
 
-## 목차 
+## 📑목차 
 - [Contributors](#contributors)
 - [개발 환경](#개발-환경)
 - [아키텍처 구조](#아키텍처-구조)
@@ -28,7 +28,7 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 <br>
 
-## Contributors
+## 👥Contributors
 
 | ![김창규](https://avatars.githubusercontent.com/u/40711682?v=4) | ![김창성](https://avatars.githubusercontent.com/u/103468518?v=4) | ![나원호](https://avatars.githubusercontent.com/u/74342019?v=4) | ![나홍찬](https://avatars.githubusercontent.com/u/95984922?v=4) |
 |:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|
@@ -36,19 +36,19 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 <br>
 
-## 개발 환경
+## 💻개발 환경
 - Java 17
 - Oracle 11 EE
 - Ubuntu 24.04.1
 
 <br>
 
-## 아키텍처 구조
+## 🏗️아키텍처 구조
 ![image](https://github.com/user-attachments/assets/1c4ce90d-af91-47fb-8d48-b45b45939873)
 
 <br>
 
-## 프로젝트 파일 구조
+## 📂프로젝트 파일 구조
 <table>
   <tr>
     <td>
@@ -82,7 +82,7 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 
 <br>
 
-## 프로젝트 기능
+## ⚙️프로젝트 기능
 
 - 인덱스 관련 테이블 설정
 MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전에서부터 generated as identity 라는 명령어로 존재.**
@@ -111,13 +111,13 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 
 <br>
 
-## Flow Chart
+## 🔄Flow Chart
 <img width="868" alt="image" src="https://github.com/user-attachments/assets/d269687f-052e-4872-a15c-3240e73b5049" />
 
 <br>
 <br>
 
-## REFACTORING
+## 🔧REFACTORING
 
 
 StreamAPI와 Lambda 표현식을 학습한 이후 활용한 코드 리팩토링
@@ -207,7 +207,7 @@ ReadController readController = new ReadController(proxyService);
 
 <br>
 
-## 실행 화면
+## 🖼️실행 화면
 <details>
 <summary>Result</summary>
 <img width="834" alt="image" src="https://github.com/user-attachments/assets/c1222ac9-48b3-4fba-8944-6231cbc76530" />
@@ -225,7 +225,7 @@ ReadController readController = new ReadController(proxyService);
 
 <br>
 
-## Trouble Shooting
+## 🛠️Trouble Shooting
 
 ### **CSV 데이터 파싱 오류 해결**
 
@@ -274,6 +274,7 @@ ReadController readController = new ReadController(proxyService);
 
 #### 결과
 - 필요한 데이터만 조회하여 불필요한 데이터 처리 부담을 줄일 수 있었음
+---
 
 ### **UPDATE 로직 개선 2**
 #### 문제 설명
@@ -287,7 +288,7 @@ ReadController readController = new ReadController(proxyService);
 
 <br>
 
-## 쿼리 실행 시간 비교
+## ⏱️쿼리 실행 시간 비교
 #### Data Insertion
 프로그램 실행 시 초기화 과정에서 Table 존재시 Drop 후 시퀀스와 트리거 생성 후 새로 Insert 하는 방식을 사용.
 
@@ -321,14 +322,13 @@ ReadController readController = new ReadController(proxyService);
 
 <br>
 
-## 추가 개선 사항
+## 🔨추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 - 완벽한 데이터 전처리를 위한 개선
-- service 기능과 view 분리
 
 <br>
 
-## 프로젝트 고찰 및 회고
+## 📝프로젝트 고찰 및 회고
 #### **나홍찬**
 jdbc로 DB의 table, sequence, trigger와 입출력을 구현해보면서 Java의 기본문법과 DTO, DAO, MVC 패턴을 이해할 수 있었던 프로젝트였습니다.
 Maven을 사용해 외부 라이브러리 사용법을 익혔고, 또한 StreamAPI로 Code Refactoring하는 방법을 알게되었습니다.
