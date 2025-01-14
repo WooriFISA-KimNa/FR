@@ -1,6 +1,7 @@
 # 🏘️ FR : For Real Data For Real Estate
 Real Estate Real transaction data
 
+<br>
 
 ## 프로젝트 소개
 CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이터를 사용하고자 하는 목표에서 착안해 [공공데이터포털](https://www.data.go.kr/)에 존재하는 서울특별시 부동산 실거래 데이터를 주제로 선정.
@@ -8,6 +9,7 @@ CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이
 CSV 파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
 Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작.
 
+<br>
 
 ## 목차 
 - [Contributors](#contributors)
@@ -24,21 +26,27 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
 - [프로젝트 고찰 및 회고](#프로젝트-고찰-및-회고)
 ---
 
+<br>
+
 ## Contributors
 
 | ![김창규](https://avatars.githubusercontent.com/u/40711682?v=4) | ![김창성](https://avatars.githubusercontent.com/u/103468518?v=4) | ![나원호](https://avatars.githubusercontent.com/u/74342019?v=4) | ![나홍찬](https://avatars.githubusercontent.com/u/95984922?v=4) |
 |:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------:|
 | [김창규](https://github.com/kcklkb)                         | [김창성](https://github.com/kcs19)                      | [나원호](https://github.com/CooolRyan)                         | [나홍찬](https://github.com/HongChan1412)                         |
 
+<br>
+
 ## 개발 환경
 - Java 17
 - Oracle 11 EE
 - Ubuntu 24.04.1
 
+<br>
 
 ## 아키텍처 구조
 ![image](https://github.com/user-attachments/assets/1c4ce90d-af91-47fb-8d48-b45b45939873)
 
+<br>
 
 ## 프로젝트 파일 구조
 <table>
@@ -72,6 +80,7 @@ Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 �
   </tr>
 </table>
 
+<br>
 
 ## 프로젝트 기능
 
@@ -100,12 +109,13 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 | **수정**  | 수정할 컬럼 조회 후 조건 입력 후 수정                                                          |
 | **삭제**  | 본번, 부번에 해당하는 데이터 삭제        
 
+<br>
 
 ## Flow Chart
 <img width="868" alt="image" src="https://github.com/user-attachments/assets/d269687f-052e-4872-a15c-3240e73b5049" />
 
 
-
+<br>
 
 ## REFACTORING
 
@@ -195,7 +205,7 @@ ReadServiceInterface proxyService = (ReadServiceInterface) AOPUtil.createProxy(m
 ReadController readController = new ReadController(proxyService);
 ```
 
-
+<br>
 
 ## 실행 화면
 <img width="834" alt="image" src="https://github.com/user-attachments/assets/c1222ac9-48b3-4fba-8944-6231cbc76530" />
@@ -214,6 +224,7 @@ ReadController readController = new ReadController(proxyService);
 
 ![image](https://github.com/user-attachments/assets/bfa2905c-220b-4b10-b06a-ccf87e6dd329)
 
+<br>
 
 ## Trouble Shooting
 
@@ -237,6 +248,7 @@ ReadController readController = new ReadController(proxyService);
 #### 결과
 - `opencsv` 적용 후, CSV 데이터의 파싱 정확도 향상, 대량의 데이터도 빠르게 처리가능해, 데이터 입력 시간 단축.
 ---
+
 ### **NLS_DATE_FORMAT 오류 해결**
 
 - Oracle 데이터베이스에 `date` 형식의 데이터를 입력하는 과정에서 예상치 못한 날짜 형식이 입력되는 문제가 발생.
@@ -306,9 +318,14 @@ ReadController readController = new ReadController(proxyService);
 
 이후 Batch size를 5000으로 설정하며 평균 7~8s로 시간을 줄일 수 있었음.
 
+<br>
+
 ## 추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 - 완벽한 데이터 전처리를 위한 개선
+- service 기능과 view 분리
+
+<br>
 
 ## 프로젝트 고찰 및 회고
 #### **나홍찬**
