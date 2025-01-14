@@ -133,6 +133,8 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 
 
 - 데이터 예시
+
+
 | eid  | reception_year | district_code | district_name | legal_dong_code | legal_dong_name | lot_type | lot_type_name | main_lot | sub_lot | building_name | contract_date | property_price | building_area | land_area | floor | right_type | cancellation_date | construction_year | building_purpose | report_type | realtor_district_name |
 | ---- | -------------- | ------------- | ------------- | --------------- | --------------- | -------- | ------------- | -------- | ------- | ------------- | ------------- | -------------- | -------------- | --------- | ----- | ---------- | ------------------ | ------------------ | ----------------- | ----------- | ---------------------- |
 | 1 | 2024           | 11230         | 동대문구      | 10400           | 전농동          | 1        | 대지          | 103      | 50      | (103-50)      | 2023-12-31    | 24000          | 44.04          | 20        | -1    |    입주권      |        2024-12-31    | 1991               | 연립다세대         | 중개거래     | 서울 동대문구            |
@@ -141,6 +143,8 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 
 
 - RealDTO
+
+  
 | eid  | district_name | legal_dong_name | main_lot | sub_lot | building_name | contract_date | property_price | building_area | floor | cancellation_date | building_purpose | report_type |
 | ---- | ------------ | ------------- | ------- | ------ | ------------ | ------------ | ------------- | ------------ | ----- | ---------------- | --------------- | ---------- |
 | 1    | 동대문구     | 전농동        | 103     | 50     | (103-50)     | 2023-12-31   | 24000         | 44           | -1    | 2024-12-31       | 연립다세대      | 중개거래    |
