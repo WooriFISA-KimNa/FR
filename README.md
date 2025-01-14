@@ -114,7 +114,7 @@ MySQL의 특정 컬럼에 대한 **auto increment** 기능이 **Oracle 12 버전
 ## Flow Chart
 <img width="868" alt="image" src="https://github.com/user-attachments/assets/d269687f-052e-4872-a15c-3240e73b5049" />
 
-
+<br>
 <br>
 
 ## REFACTORING
@@ -264,7 +264,7 @@ ReadController readController = new ReadController(proxyService);
 #### 결과
 `ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'` 명령어를 사용하여 세션의 날짜 포맷을 정확하게 설정한 결과, 데이터베이스에 날짜가 올바르게 입력되었고, 날짜 형식에 의한 오류를 해결
 
-
+---
 ### **UPDATE 로직 개선 1**
 #### 문제 설명
 > 모든 데이터를 조회한 후 수정하는 방식에서는 많은 데이터가 조회되어 성능에 부담을 줄 수 있음.
@@ -284,6 +284,8 @@ ReadController readController = new ReadController(proxyService);
 
 #### 결과
 - 사용자 입력 부담을 줄이고 수정 작업이 간편해짐
+
+<br>
 
 ## 쿼리 실행 시간 비교
 #### Data Insertion
