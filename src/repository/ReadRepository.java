@@ -260,12 +260,12 @@ public class ReadRepository {
 
         String sortOrder = (order.equals("1") ? "DESC" : "ASC");
         String query = "SELECT * FROM real_estate_data ORDER BY " + col + " " + sortOrder;
-
+        String rownumQ = "SELECT * FROM (" + query + " )WHERE ROWNUM <= 1000";
 
         try {
             // DBUtil을 통해 Connection 획득
             conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(query);
+            pstmt = conn.prepareStatement(rownumQ);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -365,7 +365,8 @@ public class ReadRepository {
 
         try {
             conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(query);
+            String rownumQ = "SELECT * FROM (" + query + " )WHERE ROWNUM <= 1000";
+            pstmt = conn.prepareStatement(rownumQ);
             rs = pstmt.executeQuery();
 
             // ResultSet의 컬럼 이름 및 개수 가져오기
