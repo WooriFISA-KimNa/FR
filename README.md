@@ -9,8 +9,8 @@ CRUD 기능을 구현하는 프로젝트의 특성에서 최대한 많은 데이
 CSV 파일을 기반으로 테이블 설계 및 CRUD 작업을 진행할 수 있도록 프로젝트를 구성.
 Virtual Box에 존재하는 Ubuntu 상의 도커 컨테이너의 Oracle DB를 연동하고 JDBC를 사용해 테이블 조작.
 
-<br>
 
+<br>
 ## 📑목차 
 - [Contributors](#contributors)
 - [개발 환경](#개발-환경)
@@ -325,6 +325,8 @@ ReadController readController = new ReadController(proxyService);
 ## 🔨추가 개선 사항
 - 10만 개의 데이터 가용을 위한 효율성 고려해 쿼리 튜닝
 - 완벽한 데이터 전처리를 위한 개선
+- 데이터 훼손 방지 및 관리 효율성을 강화하기 위해 CSV 파일에 CRUD 작업을 적용하여 백업 관리와 데이터 내보내기 기능을 추가
+
 
 <br>
 
