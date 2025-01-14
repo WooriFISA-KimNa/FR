@@ -362,7 +362,7 @@ public class RunningStartView {
 					System.out.print("삭제하시겠습니까 ? (Y) : ");
 					option = scanner.next();
 					
-					if (option == "Y") {
+					if (option.equals("Y")) {
 						DeleteController.deleteEstate(mainLot, subLot);
 						DeleteController.selectEstate(mainLot, subLot);
 						System.out.println("삭제 성공");
