@@ -208,21 +208,20 @@ ReadController readController = new ReadController(proxyService);
 <br>
 
 ## 실행 화면
+<details>
+<summary>Result</summary>
 <img width="834" alt="image" src="https://github.com/user-attachments/assets/c1222ac9-48b3-4fba-8944-6231cbc76530" />
 
 ![image](https://github.com/user-attachments/assets/2aa20e44-8cd5-411b-bb19-c24054177fb5)
 
-
 ![image](https://github.com/user-attachments/assets/a73ac39e-de07-4d4e-9816-55c611174a2b)
-
 
 ![image](https://github.com/user-attachments/assets/53e706b2-98d7-4662-acca-8020d524c178)
 
-
 ![image](https://github.com/user-attachments/assets/69cc9564-4138-4d44-89be-95f516fd1856)
 
-
 ![image](https://github.com/user-attachments/assets/bfa2905c-220b-4b10-b06a-ccf87e6dd329)
+</details>
 
 <br>
 
